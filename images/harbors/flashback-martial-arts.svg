@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="martial" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#C41E3A"/>
+      <stop offset="100%" style="stop-color:#D4AF37"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="#0f0f0f"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="url(#martial)" stroke-width="2" opacity="0.4"/>
+  <!-- Fist/punch icon -->
+  <path d="M35 55 L35 40 Q35 35 40 35 L55 35 Q60 35 60 40 L60 50 L65 50 Q70 50 70 55 L70 65 Q70 70 65 70 L40 70 Q35 70 35 65 Z" fill="url(#martial)"/>
+  <!-- Impact lines -->
+  <line x1="25" y1="35" x2="30" y2="40" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="22" y1="45" x2="28" y2="47" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <line x1="25" y1="55" x2="30" y2="52" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+</svg>
