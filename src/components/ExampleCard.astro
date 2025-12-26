@@ -1,0 +1,44 @@
+---
+import { ExternalLink } from 'lucide-astro';
+
+interface Props {
+  href: string;
+  image: string;
+  title: string;
+  description: string;
+}
+
+const { href, image, title, description } = Astro.props;
+---
+
+<a 
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group relative block overflow-hidden rounded-lg bg-slate-800/40 border border-slate-700/50 hover:border-slate-600 transition-all duration-300"
+>
+  <!-- Image container -->
+  <div class="relative aspect-square overflow-hidden">
+    <img 
+      src={image} 
+      alt={title}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      loading="lazy"
+    />
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent"></div>
+    
+    <!-- External link icon -->
+    <div class="absolute top-2 right-2 p-1.5 rounded-md bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
+      <ExternalLink class="w-3 h-3 text-white/80" />
+    </div>
+  </div>
+  
+  <!-- Content -->
+  <div class="p-3">
+    <h3 class="font-medium text-sm text-white group-hover:text-teal-400 transition-colors">
+      {title}
+    </h3>
+    <p class="text-xs text-slate-500 mt-0.5">{description}</p>
+  </div>
+</a>

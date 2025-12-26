@@ -1,0 +1,57 @@
+---
+import { ArrowRight } from 'lucide-astro';
+
+interface QRCategory {
+  title: string;
+  description: string;
+  mainImage: string;
+  thumbnails: string[];
+  galleryHref: string;
+}
+
+interface Props {
+  categories: QRCategory[];
+}
+
+const { categories } = Astro.props;
+---
+
+<div class="grid md:grid-cols-2 gap-6">
+  {categories.map((category) => (
+    <article class="card group">
+      <h3 class="text-lg font-semibold text-white mb-1">{category.title}</h3>
+      <p class="text-slate-500 text-sm mb-5">{category.description}</p>
+      
+      <!-- Main preview -->
+      <div class="relative mb-4">
+        <div class="aspect-square rounded-lg overflow-hidden bg-slate-800/60 border border-slate-700/50">
+          <img 
+            src={category.mainImage} 
+            alt={`${category.title} QR code example`}
+            class="w-full h-full object-contain p-4 group-hover:scale-102 transition-transform duration-300"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      
+      <!-- Thumbnails -->
+      <div class="grid grid-cols-4 gap-2 mb-5">
+        {category.thumbnails.slice(0, 4).map((thumb, i) => (
+          <div class="aspect-square rounded-md overflow-hidden bg-slate-800/40 border border-slate-700/30">
+            <img 
+              src={thumb} 
+              alt={`${category.title} variation ${i + 1}`}
+              class="w-full h-full object-contain p-1.5"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+      
+      <a href={category.galleryHref} class="btn-secondary w-full text-sm group/btn">
+        <span>View Full Gallery</span>
+        <ArrowRight class="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+      </a>
+    </article>
+  ))}
+</div>

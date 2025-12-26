@@ -1,0 +1,66 @@
+---
+import { Anchor, QrCode, Bell, Server, ChevronDown } from 'lucide-astro';
+---
+
+<header class="relative min-h-screen flex flex-col items-center justify-center px-4">
+  <div class="max-w-4xl mx-auto text-center">
+    <!-- Logo -->
+    <div class="relative mb-8">
+      <img 
+        src="/images/dh-logo.png" 
+        alt="Digital Harbor Logo" 
+        class="w-20 h-20 md:w-24 md:h-24 mx-auto rounded-xl shadow-lg"
+      />
+    </div>
+    
+    <!-- Title -->
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 tracking-tight text-white">
+      Digital Harbor
+    </h1>
+    
+    <p class="text-lg md:text-xl text-slate-400 mb-3 max-w-lg mx-auto">
+      Your Complete Digital Infrastructure
+    </p>
+    
+    <p class="text-sm md:text-base text-slate-500 mb-10 max-w-md mx-auto leading-relaxed">
+      Link pages, QR codes, and managed hosting for creators and businesses.
+    </p>
+    
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+      <a href="#products" class="btn-primary">
+        Explore Services
+      </a>
+      <a href="#contact" class="btn-secondary">
+        Get in Touch
+      </a>
+    </div>
+    
+    <!-- Navigation Pills -->
+    <nav class="flex flex-wrap justify-center gap-2">
+      <a href="#products" class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs text-slate-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all">
+        <Anchor class="w-3.5 h-3.5" />
+        <span>Link Pages</span>
+      </a>
+      <a href="#qr-gallery" class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs text-slate-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all">
+        <QrCode class="w-3.5 h-3.5" />
+        <span>QR Codes</span>
+      </a>
+      <a href="https://app.notifiq.net" target="_blank" rel="noopener" class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs text-slate-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all">
+        <Bell class="w-3.5 h-3.5" />
+        <span>Notifiq</span>
+      </a>
+      <a href="#contact" class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs text-slate-500 hover:text-teal-400 hover:bg-teal-500/10 transition-all">
+        <Server class="w-3.5 h-3.5" />
+        <span>Hosting</span>
+      </a>
+    </nav>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+    <a href="#products" class="text-slate-600 hover:text-slate-400 transition-colors">
+      <ChevronDown class="w-5 h-5" />
+    </a>
+  </div>
+</header>

@@ -1,0 +1,53 @@
+name: Build and Push
+
+on:
+  push:
+    branches: [ "*" ]
+
+jobs:
+  build-push-pages:
+    runs-on: docker
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install SSH key
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY_FORGEJO_MIRROR_BOT }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+    - name: Configure git identity
+      shell: bash
+      run: |
+        git config user.name "Forgejo Mirror Bot"
+        git config user.email "forgejo-mirror-bot@pype.dev"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build Astro site
+      run: npm run build
+
+    - name: Deploy dist to GitHub
+      shell: bash
+      run: |
+        # Move into dist folder
+        cd dist
+
+        # Initialize fresh git repo with just the build output
+        git init
+        git config user.name "Forgejo Mirror Bot"
+        git config user.email "forgejo-mirror-bot@pype.dev"
+
+        git add -A
+        git commit -m "Deploy: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+        # Push to appropriate branch
+        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          git push --force "git@github.com:pypeaday/DigitalHarbor.git" HEAD:gh-pages
+        else
+          git push --force "git@github.com:pypeaday/DigitalHarbor.git" HEAD:gh-pages-dev
+        fi

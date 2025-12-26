@@ -1,0 +1,81 @@
+---
+import { Check, Anchor, Compass, Bell, Ship } from 'lucide-astro';
+
+interface Props {
+  icon: 'anchor' | 'compass' | 'bell' | 'ship';
+  title: string;
+  description: string;
+  features: string[];
+  ctaText: string;
+  ctaHref?: string;
+  badge?: string;
+  disabled?: boolean;
+  featured?: boolean;
+}
+
+const { icon, title, description, features, ctaText, ctaHref, badge, disabled = false, featured = false } = Astro.props;
+
+const iconMap = {
+  anchor: Anchor,
+  compass: Compass,
+  bell: Bell,
+  ship: Ship,
+};
+
+const IconComponent = iconMap[icon];
+---
+
+<article class:list={[
+  "card group relative overflow-hidden flex flex-col h-full",
+  featured && "ring-2 ring-cyan-500/50"
+]}>
+  <!-- Gradient accent line at top -->
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+  
+  <!-- Icon and title -->
+  <div class="flex items-center gap-4 mb-6">
+    <div class="relative flex-shrink-0">
+      <div class="absolute inset-0 blur-xl bg-cyan-500/20 rounded-full scale-150"></div>
+      <div class="relative w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/15 to-teal-500/15 border border-teal-500/20">
+        <IconComponent class="w-6 h-6 text-teal-400" />
+      </div>
+    </div>
+    <div>
+      <h2 class="text-xl font-semibold text-white group-hover:text-cyan-400 transition-colors flex items-center gap-2">
+        {title}
+        {badge && (
+          <span class="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider bg-cyan-500/20 text-cyan-400 rounded-full border border-cyan-500/30">
+            {badge}
+          </span>
+        )}
+      </h2>
+    </div>
+  </div>
+  
+  <p class="text-slate-400 text-sm mb-6 leading-relaxed">{description}</p>
+  
+  <ul class="space-y-2 mb-6 flex-grow">
+    {features.map((feature) => (
+      <li class="flex items-start gap-2 text-sm text-slate-400">
+        <Check class="w-4 h-4 text-teal-500 flex-shrink-0 mt-0.5" />
+        <span>{feature}</span>
+      </li>
+    ))}
+  </ul>
+  
+  {disabled ? (
+    <button 
+      disabled 
+      class="w-full py-2.5 px-4 bg-slate-800/50 text-slate-500 text-sm font-medium rounded-lg cursor-not-allowed border border-slate-700/50"
+    >
+      {ctaText}
+    </button>
+  ) : (
+    <a 
+      href={ctaHref} 
+      class="btn-primary w-full text-sm"
+    >
+      {ctaText}
+    </a>
+  )}
+</article>

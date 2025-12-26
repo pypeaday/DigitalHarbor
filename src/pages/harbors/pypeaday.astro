@@ -1,0 +1,381 @@
+---
+import LinkPageLayout from '../../layouts/LinkPageLayout.astro';
+
+const title = "pypeaday";
+const tagline = "Jesus is King • Husband • Developer";
+const description = "Nic Payne - Software developer, open source enthusiast, and tech creator. Find me building cool stuff.";
+const bio = "I homelab, tinker, and code. Python enthusiast, homelabber, and wannabe hackerman.";
+
+const techStack = ["Python", "Docker", "Terraform/Tofu", "K8s"];
+
+const codeLinks = [
+  { href: "https://www.github.com/pypeaday", label: "GitHub", handle: "@pypeaday", icon: "github", color: "#64748b" },
+  { href: "https://pype.dev/", label: "Blog", handle: "pype.dev", icon: "blog", color: "#6b9080" },
+  { href: "https://github.com/pypeaday/AltaCV/blob/me/nic.pdf", label: "Resume", handle: "View CV", icon: "resume", color: "#7c9eb2" },
+];
+
+const socialLinks = [
+  { href: "https://www.twitter.com/pypeaday", label: "Twitter / X", icon: "twitter", color: "#64748b" },
+  { href: "https://discord.com/channels/957226093155336204/957226093696393278", label: "Discord", icon: "discord", color: "#7c8db5" },
+  { href: "https://www.twitch.tv/pypeaday", label: "Twitch", icon: "twitch", color: "#9f7aea" },
+  { href: "https://git.paynepride.com", label: "Forgejo", description: "Self-hosted git", icon: "git", color: "#64748b" },
+];
+
+const projectLinks = [
+  { href: "https://app.notifiq.net", label: "Notifiq", description: "Notifications as a Service", icon: "bell", color: "#6b9080" },
+  { href: "https://mydigitalharbor.com", label: "Digital Harbor", description: "Link page platform", icon: "anchor", color: "#7c9eb2" },
+];
+---
+
+<LinkPageLayout 
+  title={title} 
+  description={description}
+  themeColor="#5eaa8d"
+  bgGradient="from-[#0c1015] via-[#141c24] to-[#0c1015]"
+>
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sage: #5eaa8d;
+      --slate: #94a3b8;
+      --mist: #7dd3fc;
+    }
+
+    * { font-family: 'Inter', system-ui, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Soft ambient glow */
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .glow-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(94, 170, 141, 0.2);
+      top: -150px;
+      right: -150px;
+    }
+
+    .glow-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(125, 211, 252, 0.12);
+      bottom: -100px;
+      left: -100px;
+    }
+
+    /* Card container */
+    .profile-card {
+      background: rgba(20, 28, 36, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Avatar */
+    .avatar-ring {
+      position: relative;
+      display: inline-block;
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(135deg, var(--sage), var(--mist));
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    .avatar-inner {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a1f2e, #252d3d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #1a1f2e;
+    }
+
+    /* Tech pills */
+    .tech-pill {
+      padding: 5px 12px;
+      background: rgba(94, 170, 141, 0.15);
+      border: 1px solid rgba(94, 170, 141, 0.3);
+      border-radius: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--sage);
+      transition: all 0.3s ease;
+    }
+
+    .tech-pill:hover {
+      background: rgba(94, 170, 141, 0.25);
+    }
+
+    /* Link cards */
+    .link-card {
+      position: relative;
+      background: rgba(20, 28, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px 16px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--card-color, var(--sage));
+      opacity: 0.4;
+      transition: opacity 0.3s;
+    }
+
+    .link-card:hover {
+      background: rgba(20, 28, 36, 0.9);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .link-card:hover::before {
+      opacity: 0.8;
+    }
+
+    /* Section headers */
+    .section-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 10px;
+    }
+
+    /* CTA button */
+    .cta-btn {
+      background: linear-gradient(135deg, var(--sage), var(--mist));
+      color: #0f1419;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(107, 144, 128, 0.2);
+    }
+
+    /* Fade in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <!-- Ambient background -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="relative z-10 max-w-md mx-auto px-4 py-10">
+    
+    <!-- Profile Card -->
+    <div class="profile-card p-8 mb-6 fade-in">
+      <!-- Avatar & Name -->
+      <div class="text-center mb-6">
+        <div class="avatar-ring inline-block mb-4">
+          <div class="avatar-inner">
+            <svg class="w-10 h-10 text-sage-400" style="color: var(--sage);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+          </div>
+        </div>
+        <h1 class="font-mono text-2xl font-bold text-white mb-1">{title}</h1>
+        <p class="text-gray-300 text-sm">{tagline}</p>
+      </div>
+
+      <!-- Bio -->
+      <p class="text-gray-400 text-sm leading-relaxed text-center mb-6">
+        {bio}
+      </p>
+
+      <!-- Tech Stack -->
+      <div class="flex flex-wrap justify-center gap-2">
+        {techStack.map(tech => (
+          <span class="tech-pill">{tech}</span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Code & Work -->
+    <div class="mb-5 fade-in">
+      <div class="section-header">Code & Work</div>
+      <div class="space-y-2">
+        {codeLinks.map(link => (
+          <a 
+            href={link.href} 
+            class="link-card flex items-center gap-3 group"
+            style={`--card-color: ${link.color};`}
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style={`background: ${link.color}15;`}>
+              {link.icon === 'github' && (
+                <svg class="w-4 h-4" style={`color: ${link.color};`} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              )}
+              {link.icon === 'blog' && (
+                <svg class="w-4 h-4" style={`color: ${link.color};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                </svg>
+              )}
+              {link.icon === 'resume' && (
+                <svg class="w-4 h-4" style={`color: ${link.color};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              )}
+            </div>
+            <div class="flex-1">
+              <div class="text-white font-medium text-sm">{link.label}</div>
+              <div class="text-gray-400 text-xs font-mono">{link.handle}</div>
+            </div>
+            <svg class="w-4 h-4 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="mb-5 fade-in">
+      <div class="section-header">Projects</div>
+      <div class="space-y-2">
+        {projectLinks.map(link => (
+          <a 
+            href={link.href}
+            class="link-card flex items-center gap-3 group"
+            style={`--card-color: ${link.color};`}
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style={`background: ${link.color}15;`}>
+              {link.icon === 'bell' && (
+                <svg class="w-4 h-4" style={`color: ${link.color};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+              )}
+              {link.icon === 'anchor' && (
+                <svg class="w-4 h-4" style={`color: ${link.color};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8V4m0 4a4 4 0 100 8 4 4 0 000-8zm-8 8h16M5 12H3m18 0h-2"/>
+                </svg>
+              )}
+              {link.icon === 'git' && (
+                <svg class="w-4 h-4" style={`color: ${link.color};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              )}
+            </div>
+            <div class="flex-1">
+              <div class="text-white font-medium text-sm">{link.label}</div>
+              <div class="text-gray-400 text-xs">{link.description}</div>
+            </div>
+            <svg class="w-4 h-4 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="mb-6 fade-in">
+      <div class="section-header">Connect</div>
+      <div class="flex justify-center gap-3">
+        {socialLinks.map(link => (
+          <a 
+            href={link.href}
+            class="w-11 h-11 rounded-xl flex items-center justify-center transition-all hover:scale-105"
+            style={`background: ${link.color}15;`}
+            target="_blank"
+            rel="noopener"
+            title={link.label}
+          >
+            {link.icon === 'twitter' && (
+              <svg class="w-5 h-5" style={`color: ${link.color};`} fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            )}
+            {link.icon === 'discord' && (
+              <svg class="w-5 h-5" style={`color: ${link.color};`} fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+              </svg>
+            )}
+            {link.icon === 'twitch' && (
+              <svg class="w-5 h-5" style={`color: ${link.color};`} fill="currentColor" viewBox="0 0 24 24">
+                <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
+              </svg>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center fade-in">
+      <a href="mailto:nic@mydigitalharbor.com?subject=Let's%20Connect" class="cta-btn inline-flex items-center gap-2">
+        <span>Get in Touch</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+      </a>
+      <p class="text-gray-500 text-xs mt-3">nic@mydigitalharbor.com</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Gentle fade-in on load
+    function initAnimations() {
+      const elements = document.querySelectorAll('.fade-in');
+      elements.forEach((el, i) => {
+        setTimeout(() => {
+          el.classList.add('visible');
+        }, 100 + (i * 150));
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initAnimations);
+  </script>
+</LinkPageLayout>

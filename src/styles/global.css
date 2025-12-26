@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-navy-900 text-white antialiased;
+    background: linear-gradient(180deg, #020617 0%, #0a1628 50%, #0f172a 100%);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg 
+           transition-all duration-300 text-white;
+    background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+    box-shadow: 0 2px 12px rgba(20, 184, 166, 0.25);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 4px 20px rgba(20, 184, 166, 0.35);
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 font-medium rounded-lg
+           transition-all duration-300 border border-slate-600 text-slate-300
+           hover:bg-slate-800 hover:border-slate-500 hover:text-white;
+  }
+  
+  .card {
+    @apply rounded-xl p-6 transition-all duration-300;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    backdrop-filter: blur(12px);
+  }
+  
+  .card:hover {
+    border-color: rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.8);
+    transform: translateY(-2px);
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-semibold text-center mb-4 text-white tracking-tight;
+  }
+  
+  .section-subtitle {
+    @apply text-base text-slate-400 text-center max-w-xl mx-auto mb-12;
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
+  }
+}
+
+/* Immersive ocean background */
+.ocean-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 40%),
+              radial-gradient(ellipse at 20% 80%, rgba(20, 184, 166, 0.06) 0%, transparent 40%);
+}
+
+/* Animated wave layers */
+.ocean-bg::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 60%;
+  background: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z' fill='rgba(14,165,233,0.03)'/%3E%3C/svg%3E");
+  background-size: 1200px 100%;
+  animation: drift 25s ease-in-out infinite;
+}
+
+.ocean-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 50%;
+  background: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C150,0 350,120 600,60 C850,0 1050,120 1200,60 L1200,120 L0,120 Z' fill='rgba(6,182,212,0.02)'/%3E%3C/svg%3E");
+  background-size: 1000px 100%;
+  animation: drift 20s ease-in-out infinite reverse;
+  animation-delay: -5s;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10%); }
+}
+
+/* Floating particles (like sea foam/stars) */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(56, 189, 248, 0.6);
+  border-radius: 50%;
+  animation: float-up 15s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+@keyframes float-up {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* Grid overlay for depth */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: 
+    linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+}

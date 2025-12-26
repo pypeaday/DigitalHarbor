@@ -1,0 +1,275 @@
+---
+import LinkPageLayout from '../../layouts/LinkPageLayout.astro';
+
+const title = "Digital Harbor - Your Tech Anchor Point";
+const description = "Drop anchor in your digital harbor!";
+const bio = "Digital Harbor is a simple place to drop anchor. Bring your links to your harbor and let your audience set sail from there to find you online";
+---
+
+<LinkPageLayout 
+  title={title} 
+  description={description}
+  image="https://tinyzap.co/mFhtRv"
+  themeColor="#0096C7"
+  bgGradient="from-[#020B13] via-[#010608] to-[#020B13]"
+>
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <script slot="head" src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <link slot="head" rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+  <style>
+    :root {
+      --ocean-deep: #020B13;
+      --ocean-blue: #0A2533;
+      --wave-blue: #0096C7;
+      --ocean-foam: #FFFFFF;
+      --neon-blue: #48CAE4;
+      --accent-gold: #E6C670;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Wave animations */
+    .wave {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100vh;
+      background-repeat: repeat-x;
+      background-size: 50% 100%;
+      animation: wave 20s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    .wave-1 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23041C2C' fill-opacity='0.4' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+      animation-duration: 25s;
+      height: 120vh;
+      opacity: 0.8;
+    }
+
+    .wave-2 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23062436' fill-opacity='0.3' d='M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,181.3C672,192,768,160,864,154.7C960,149,1056,171,1152,165.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+      animation-duration: 35s;
+      animation-direction: reverse;
+      height: 110vh;
+      opacity: 0.7;
+    }
+
+    .wave-3 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23020B13' fill-opacity='0.5' d='M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,112C672,128,768,192,864,192C960,192,1056,128,1152,106.7C1248,85,1344,107,1392,117.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+      animation-duration: 45s;
+      height: 130vh;
+      opacity: 0.9;
+    }
+
+    @keyframes wave {
+      0% { transform: translateX(0) translateY(0) scale(1.1); }
+      50% { transform: translateX(-25%) translateY(-15px) scale(1); }
+      100% { transform: translateX(-50%) translateY(0) scale(1.1); }
+    }
+
+    .float {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .nautical-decoration {
+      position: absolute;
+      opacity: 0.15;
+      color: var(--neon-blue);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .anchor-1 { top: 15%; right: 10%; font-size: 3rem; transform: rotate(15deg); }
+    .anchor-2 { bottom: 20%; left: 8%; font-size: 2.5rem; transform: rotate(-10deg); }
+    .ship-1 { top: 30%; left: 5%; font-size: 2rem; }
+    .lighthouse-1 { bottom: 30%; right: 5%; font-size: 2rem; }
+
+    .nautical-title {
+      font-family: 'Playfair Display', serif;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(72, 202, 228, 0.3);
+      letter-spacing: 0.05em;
+    }
+
+    .link-card {
+      background: rgba(10, 37, 51, 0.95);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--wave-blue);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 150, 199, 0.3), 0 0 0 1px rgba(0, 150, 199, 0.4);
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px) scale(1.02);
+      border-color: var(--neon-blue);
+      background: rgba(10, 37, 51, 1);
+      box-shadow: 0 0 25px rgba(0, 150, 199, 0.4), 0 0 5px rgba(72, 202, 228, 0.6), inset 0 0 20px rgba(72, 202, 228, 0.2);
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(117, 230, 218, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .link-card:hover::before {
+      left: 100%;
+    }
+
+    .section-divider {
+      position: relative;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--wave-blue), transparent);
+      margin: 2rem auto;
+      width: 80%;
+      max-width: 300px;
+      opacity: 0.6;
+    }
+
+    .section-divider::before, .section-divider::after {
+      content: '•';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent-gold);
+      font-size: 1.2rem;
+    }
+
+    .section-divider::before { left: 10px; }
+    .section-divider::after { right: 10px; }
+
+    .main-container {
+      position: relative;
+      z-index: 10;
+      background: rgba(10, 37, 51, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(0, 150, 199, 0.3);
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 150, 199, 0.2), inset 0 0 30px rgba(0, 150, 199, 0.1);
+    }
+
+    .glow-text {
+      text-shadow: 0 0 10px rgba(117, 230, 218, 0.5);
+    }
+
+    .compass-spin {
+      animation: compass 2s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes compass {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wave, .float, .compass-spin { animation: none; }
+    }
+  </style>
+
+  <!-- Wave Animation -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="wave wave-1"></div>
+    <div class="wave wave-2"></div>
+    <div class="wave wave-3"></div>
+  </div>
+
+  <!-- Nautical decorations -->
+  <div class="nautical-decoration anchor-1">⚓</div>
+  <div class="nautical-decoration anchor-2">⚓</div>
+  <div class="nautical-decoration ship-1">🚢</div>
+  <div class="nautical-decoration lighthouse-1">🏝️</div>
+
+  <div class="container mx-auto px-8 py-12 max-w-4xl main-container mt-12">
+    <!-- Header Section -->
+    <div class="text-center mb-12" data-aos="fade-down" data-aos-duration="800">
+      <div class="relative inline-block mb-6">
+        <img src="/images/dh.png" alt="Digital Harbor Logo" class="w-24 h-24 mx-auto float" style="filter: drop-shadow(0 0 10px rgba(72, 202, 228, 0.5));">
+      </div>
+      
+      <h1 class="nautical-title text-4xl md:text-6xl font-bold mb-4 text-[#0096C7] glow-text">Digital Harbor</h1>
+      
+      <p class="text-lg md:text-xl text-[#90E0EF] max-w-2xl mx-auto font-medium mt-4">
+        {bio} <span class="compass-spin">🧭</span>
+      </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Links Section -->
+    <div class="space-y-8" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+      <!-- Business Section -->
+      <div class="space-y-2 py-4">
+        <h2 class="text-2xl font-bold text-[#48CAE4] flex items-center gap-2 mb-6 glow-text">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+          <span>The Biz</span>
+        </h2>
+        
+        <a href="https://www.github.com/DigitalHarbor7/DigitalHarbor" class="link-card block p-6 rounded-xl flex items-center gap-4" target="_blank" rel="noopener">
+          <svg class="w-6 h-6 text-[#0096C7]" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span class="text-lg font-semibold tracking-wide text-white">Github</span>
+        </a>
+        
+        <a href="mailto:nic@mydigitalharbor.com" class="link-card block p-6 rounded-xl flex items-center gap-4">
+          <svg class="w-6 h-6 text-[#0096C7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          <span class="text-lg font-semibold tracking-wide text-white">Inquire via Email</span>
+        </a>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- QR Codes Section -->
+      <div class="space-y-2 py-4">
+        <h2 class="text-2xl font-bold text-[#48CAE4] flex items-center gap-2 mb-6 glow-text">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+          </svg>
+          <span>QR Codes</span>
+        </h2>
+        
+        <a href="/qr/artisanal" class="link-card block p-6 rounded-xl flex items-center gap-4">
+          <svg class="w-6 h-6 text-[#0096C7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span class="text-lg font-semibold tracking-wide text-white">Highly Artisan QR Code Examples</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-12 text-center text-sm text-[#90E0EF]/70">
+      <p>Digital Harbor © 2023</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 800, once: true, mirror: false });
+      }
+    });
+  </script>
+</LinkPageLayout>

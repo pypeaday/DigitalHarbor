@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ArrowLeft } from 'lucide-astro';
+
+// Get all artisanal QR images with friendly names
+const qrImages = [
+  { file: 'beach-sunrise.png', name: 'Beach Sunrise' },
+  { file: 'dolphins.png', name: 'Dolphins' },
+  { file: 'eiffel-tower.png', name: 'Eiffel Tower' },
+  { file: 'galaxy.png', name: 'Galaxy' },
+  { file: 'ice-cream.png', name: 'Ice Cream' },
+  { file: 'ice-cream2.png', name: 'Ice Cream II' },
+  { file: 'mech.png', name: 'Mech' },
+  { file: 'nyc-cyberpunk.png', name: 'NYC Cyberpunk' },
+  { file: 'nyc-cyberpunk2.png', name: 'NYC Cyberpunk II' },
+  { file: 'opera.png', name: 'Opera House' },
+  { file: 'opera2.png', name: 'Opera House II' },
+  { file: 'palm-trees.png', name: 'Palm Trees' },
+  { file: 'pirate-ship.png', name: 'Pirate Ship' },
+  { file: 'pirate-ship2.png', name: 'Pirate Ship II' },
+  { file: 'pyramid.png', name: 'Pyramid' },
+  { file: 'darth-vader.png', name: 'Darth Vader' },
+];
+---
+
+<BaseLayout title="Artisanal QR Codes - Digital Harbor">
+  <div class="min-h-screen py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="mb-12">
+        <a href="/#qr-gallery" class="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors mb-6">
+          <ArrowLeft class="w-4 h-4" />
+          <span>Back to Gallery</span>
+        </a>
+        <h1 class="section-title text-left">Artisanal QR Codes</h1>
+        <p class="text-slate-400 text-lg max-w-2xl">
+          AI-generated artistic QR codes that double as stunning visual art. Each code is a unique masterpiece created with Stable Diffusion.
+        </p>
+      </div>
+      
+      <!-- QR Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        {qrImages.map((img, index) => (
+          <button 
+            class="qr-item group relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 cursor-pointer"
+            data-index={index}
+            data-src={`/qr/artisanal/${img.file}`}
+            data-name={img.name}
+          >
+            <img 
+              src={`/qr/artisanal/${img.file}`}
+              alt={img.name}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              {img.name}
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
+    <button id="modal-close" class="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-10">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <button id="modal-prev" class="absolute left-4 top-1/2 -translate-y-1/2 p-2 text-white/70 hover:text-white transition-colors z-10">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    <button id="modal-next" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-white/70 hover:text-white transition-colors z-10">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+    <div class="flex flex-col items-center">
+      <img id="modal-img" src="" alt="QR Code" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl" />
+      <p id="modal-name" class="mt-4 text-white text-xl font-medium"></p>
+    </div>
+  </div>
+  
+  <script>
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+    const modalName = document.getElementById('modal-name');
+    const modalClose = document.getElementById('modal-close');
+    const modalPrev = document.getElementById('modal-prev');
+    const modalNext = document.getElementById('modal-next');
+    const qrItems = document.querySelectorAll('.qr-item');
+    
+    let currentIndex = 0;
+    const images: { src: string; name: string }[] = [];
+    
+    qrItems.forEach((item, index) => {
+      const src = item.getAttribute('data-src') || '';
+      const name = item.getAttribute('data-name') || '';
+      images.push({ src, name });
+      
+      item.addEventListener('click', () => {
+        currentIndex = index;
+        openModal(src, name);
+      });
+    });
+    
+    function openModal(src: string, name: string) {
+      modalImg.src = src;
+      if (modalName) modalName.textContent = name;
+      modal?.classList.remove('hidden');
+      modal?.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+      modal?.classList.add('hidden');
+      modal?.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+    
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      modalImg.src = images[currentIndex].src;
+      if (modalName) modalName.textContent = images[currentIndex].name;
+    }
+    
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      modalImg.src = images[currentIndex].src;
+      if (modalName) modalName.textContent = images[currentIndex].name;
+    }
+    
+    modalClose?.addEventListener('click', closeModal);
+    modalPrev?.addEventListener('click', showPrev);
+    modalNext?.addEventListener('click', showNext);
+    
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (!modal?.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'ArrowRight') showNext();
+      }
+    });
+  </script>
+</BaseLayout>

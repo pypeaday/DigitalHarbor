@@ -1,0 +1,78 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  themeColor?: string;
+  bgGradient?: string;
+}
+
+const { 
+  title, 
+  description = '',
+  image,
+  themeColor = '#4A9B8E',
+  bgGradient = 'from-slate-900 via-slate-800 to-slate-900',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content={Astro.generator}>
+  <meta name="theme-color" content={themeColor}>
+  
+  <title>{title}</title>
+  {description && <meta name="description" content={description}>}
+  <link rel="canonical" href={canonicalURL}>
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:title" content={title}>
+  {description && <meta property="og:description" content={description}>}
+  {image && <meta property="og:image" content={new URL(image, Astro.site)}>}
+  
+  <!-- Tailwind CDN for standalone link pages -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <slot name="head" />
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+    .link-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .link-card:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class={`bg-gradient-to-br ${bgGradient} text-white min-h-screen`}>
+  <slot />
+  
+  <!-- Back to Digital Harbor -->
+  <div class="fixed bottom-4 right-4">
+    <a 
+      href="/"
+      class="flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm rounded-full text-xs text-white/70 hover:text-white hover:bg-white/20 transition-all"
+    >
+      <span>Powered by</span>
+      <img src="/images/dh.png" alt="Digital Harbor" class="w-4 h-4">
+    </a>
+  </div>
+</body>
+</html>

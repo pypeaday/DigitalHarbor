@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ExampleCard from '../components/ExampleCard.astro';
+import QRGallery from '../components/QRGallery.astro';
+import Footer from '../components/Footer.astro';
+import { Mail, Anchor, Compass, Bell, Ship } from 'lucide-astro';
+
+const products: Array<{
+  icon: 'anchor' | 'compass' | 'bell' | 'ship';
+  title: string;
+  description: string;
+  features: string[];
+  ctaText: string;
+  ctaHref?: string;
+  badge?: string;
+  disabled?: boolean;
+}> = [
+  {
+    icon: 'anchor',
+    title: 'Link Page Building and Hosting',
+    description: 'Beautiful, fast-loading link pages and static sites. Your digital home port.',
+    features: [
+      'Centralized link management',
+      'Mobile-optimized design',
+      'Custom domains available',
+      'Lightning-fast CDN delivery',
+    ],
+    ctaText: 'View Examples',
+    ctaHref: '#examples',
+  },
+  {
+    icon: 'compass',
+    title: 'QR Code Design',
+    description: 'Scannable codes that double as marketing art. From professional branding to AI-generated masterpieces.',
+    features: [
+      'Professional branded QR codes',
+      'AI-generated artisanal designs',
+      'Custom imagery and themes',
+      'High-resolution output',
+    ],
+    ctaText: 'View Gallery',
+    ctaHref: '#qr-gallery',
+  },
+  {
+    icon: 'bell',
+    title: 'Notifiq Platform',
+    description: 'Simple notification infrastructure built for everyone. Foundation for meetup management, IT ticketing, and more.',
+    features: [
+      'Real-time notifications',
+      'Multi-channel delivery',
+      'Developer-friendly REST API',
+      'Built for scale',
+    ],
+    ctaText: 'Coming Soon',
+    badge: 'New',
+    disabled: true,
+  },
+  {
+    icon: 'ship',
+    title: 'Managed Hosting',
+    description: 'Enterprise-grade infrastructure for your digital presence. Better service, better price than the big providers.',
+    features: [
+      '99.9% uptime SLA',
+      'Global CDN',
+      'Automated backups',
+      'SSL certificates included',
+    ],
+    ctaText: 'Get Started',
+    ctaHref: '#contact',
+  },
+];
+
+const examples = [
+  {
+    href: '/harbors/pypeaday',
+    image: '/images/harbors/pypeaday.svg',
+    title: 'Pypeaday',
+    description: 'Tech creator hub',
+  },
+  {
+    href: '/harbors/caribbean-kings',
+    image: '/images/harbors/caribbean-kings.svg',
+    title: 'Caribbean Kings',
+    description: 'Caribbean entertainment',
+  },
+  {
+    href: '/harbors/1man1-band',
+    image: '/images/josh1.jpg',
+    title: '1 Man 1 Band',
+    description: 'Entertainment portfolio',
+  },
+  {
+    href: '/harbors/flashback-martial-arts',
+    image: '/images/FlashbackRound.jpg',
+    title: 'Flashback Martial Arts',
+    description: 'BJJ & Striking Arts',
+  },
+  {
+    href: '/harbors/reveal-fitness',
+    image: '/images/reveal-logo.png',
+    title: 'Reveal Fitness',
+    description: 'Community gym',
+  },
+  {
+    href: '/harbors/example',
+    image: '/images/harbors/example.svg',
+    title: 'Example',
+    description: 'Example',
+  },
+];
+
+const qrCategories = [
+  {
+    title: 'Professional',
+    description: 'Standard QR codes with brand colors and logo integration.',
+    mainImage: '/qr/professional/26-04-2024_15-21-12-1-qr.png',
+    thumbnails: [
+      '/qr/professional/26-04-2024_15-06-58-0-qr.png',
+      '/qr/professional/26-04-2024_15-06-58-2-qr.png',
+      '/qr/professional/26-04-2024_15-06-58-3-qr.png',
+      '/qr/professional/26-04-2024_15-06-58-4-qr.png',
+    ],
+    galleryHref: '/qr/professional',
+  },
+  {
+    title: 'Artisanal',
+    description: 'AI-generated artistic QR codes with custom imagery and themes.',
+    mainImage: '/qr/artisanal/nyc-cyberpunk.png',
+    thumbnails: [
+      '/qr/artisanal/eiffel-tower.png',
+      '/qr/artisanal/beach-sunrise.png',
+      '/qr/artisanal/galaxy.png',
+      '/qr/artisanal/opera.png',
+    ],
+    galleryHref: '/qr/artisanal',
+  },
+];
+---
+
+<BaseLayout title="Digital Harbor - Your Complete Digital Infrastructure">
+  <div class="min-h-screen">
+    <Header />
+    
+    <main class="relative">
+      <!-- Products Section -->
+      <section id="products" class="py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-4">
+          <h2 class="section-title">Our Services</h2>
+          <p class="section-subtitle">
+            Everything you need to establish and grow your digital presence
+          </p>
+          
+          <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+            {products.map((product) => (
+              <ProductCard {...product} />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      <!-- Divider -->
+      <div class="h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+      
+      <!-- Examples Section -->
+      <section id="examples" class="py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-4">
+          <h2 class="section-title">Client Showcases</h2>
+          <p class="section-subtitle">
+            Real digital harbors we've built for creators and businesses
+          </p>
+          
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {examples.map((example) => (
+              <ExampleCard {...example} />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      <!-- Divider -->
+      <div class="h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+      
+      <!-- QR Gallery Section -->
+      <section id="qr-gallery" class="py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-4">
+          <h2 class="section-title">QR Code Gallery</h2>
+          <p class="section-subtitle">
+            From professional branding to AI-generated artistic masterpieces
+          </p>
+          
+          <QRGallery categories={qrCategories} />
+        </div>
+      </section>
+      
+      <!-- Divider -->
+      <div class="h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+      
+      <!-- Contact Section -->
+      <section id="contact" class="py-24 md:py-32">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+          <h2 class="section-title">Ready to Drop Anchor?</h2>
+          <p class="section-subtitle">
+            Let's build your digital infrastructure together
+          </p>
+          
+          <div class="relative inline-block">
+            <div class="absolute inset-0 blur-2xl bg-cyan-500/20 rounded-full scale-150"></div>
+            <a href="mailto:nic@mydigitalharbor.com" class="relative btn-primary text-lg px-10 py-5">
+              <Mail class="w-5 h-5" />
+              <span>Get in Touch</span>
+            </a>
+          </div>
+          
+          <p class="mt-8 text-slate-500">
+            <a href="mailto:nic@mydigitalharbor.com" class="hover:text-cyan-400 transition-colors">
+              nic@mydigitalharbor.com
+            </a>
+          </p>
+        </div>
+      </section>
+    </main>
+    
+    <Footer />
+  </div>
+</BaseLayout>

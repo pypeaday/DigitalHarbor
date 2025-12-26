@@ -1,0 +1,560 @@
+---
+import LinkPageLayout from '../../layouts/LinkPageLayout.astro';
+
+const title = "Digital Harbor Showcase";
+const description = "Premium link pages that convert. See what's possible beyond Linktree.";
+const bio = "This is what a premium Digital Harbor looks like. Custom animations, embedded content, analytics-ready, and designed to convert visitors into followers, customers, and fans.";
+
+// Featured content - what Linktree can't do
+const featuredVideo = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+const spotifyEmbed = "https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT";
+
+// Social links with proper icons
+const socialLinks = [
+  { href: "#", label: "Instagram", icon: "instagram", followers: "12.5K", gradient: "from-pink-500 via-purple-500 to-orange-400" },
+  { href: "#", label: "TikTok", icon: "tiktok", followers: "45.2K", gradient: "from-black via-gray-900 to-pink-500" },
+  { href: "#", label: "YouTube", icon: "youtube", followers: "8.3K", gradient: "from-red-600 to-red-700" },
+  { href: "#", label: "Twitter / X", icon: "twitter", followers: "5.1K", gradient: "from-gray-900 to-black" },
+];
+
+// Products/Services - monetization showcase
+const products = [
+  { href: "#", label: "1-on-1 Coaching", price: "$150/hr", icon: "calendar", description: "Book a personal session", gradient: "from-emerald-500 to-teal-600", badge: "Popular" },
+  { href: "#", label: "Online Course", price: "$299", icon: "play", description: "Master the fundamentals", gradient: "from-violet-500 to-purple-600", badge: "New" },
+  { href: "#", label: "Digital Templates", price: "$49", icon: "download", description: "Ready-to-use resources", gradient: "from-amber-500 to-orange-600" },
+  { href: "#", label: "Merch Store", price: "From $25", icon: "shop", description: "Exclusive branded gear", gradient: "from-rose-500 to-pink-600" },
+];
+
+// Upcoming events
+const events = [
+  { date: "Jan 15", title: "Live Q&A Session", time: "7:00 PM EST", platform: "YouTube Live" },
+  { date: "Jan 22", title: "Workshop: Getting Started", time: "2:00 PM EST", platform: "Zoom" },
+  { date: "Feb 1", title: "Community Meetup", time: "6:00 PM EST", platform: "Discord" },
+];
+
+// Testimonials
+const testimonials = [
+  { text: "This changed everything for my business!", author: "Sarah K.", role: "Content Creator" },
+  { text: "Finally, a link page that actually converts.", author: "Mike R.", role: "Entrepreneur" },
+  { text: "My engagement doubled in the first week.", author: "Alex T.", role: "Influencer" },
+];
+
+// Newsletter stats
+const stats = [
+  { value: "50K+", label: "Subscribers" },
+  { value: "98%", label: "Open Rate" },
+  { value: "4.9★", label: "Rating" },
+];
+---
+
+<LinkPageLayout 
+  title={title} 
+  description={description}
+  image="https://opengraph.b-cdn.net/production/documents/e3e698e1-7a27-4847-aeb9-77d5844e1966.jpg"
+  themeColor="#6366f1"
+  bgGradient="from-slate-950 via-slate-900 to-slate-950"
+>
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --accent: #f472b6;
+      --glow: rgba(99, 102, 241, 0.4);
+    }
+
+    * { font-family: 'Inter', system-ui, sans-serif; }
+    h1, h2, h3, .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+    /* Animated gradient background */
+    .bg-animated {
+      background: linear-gradient(-45deg, #0f172a, #1e1b4b, #172554, #0c0a09);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float-up 20s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+    }
+
+    /* Glow effects */
+    .glow-box {
+      box-shadow: 0 0 40px var(--glow), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    .glow-text {
+      text-shadow: 0 0 30px var(--glow);
+    }
+
+    /* Premium link card */
+    .link-premium {
+      position: relative;
+      background: rgba(30, 27, 75, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .link-premium::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(99, 102, 241, 0.1) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+
+    .link-premium:hover::before {
+      transform: translateX(100%);
+    }
+
+    .link-premium:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: var(--primary);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px var(--glow);
+    }
+
+    /* Product card */
+    .product-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+
+    .product-card .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Stats counter animation */
+    .stat-value {
+      background: linear-gradient(135deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Testimonial card */
+    .testimonial {
+      background: rgba(30, 27, 75, 0.4);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: 16px;
+      position: relative;
+    }
+
+    .testimonial::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      font-size: 60px;
+      color: var(--primary);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+
+    /* Event card */
+    .event-card {
+      background: rgba(30, 27, 75, 0.5);
+      border-left: 3px solid var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .event-card:hover {
+      background: rgba(30, 27, 75, 0.7);
+      border-left-color: var(--accent);
+    }
+
+    /* Newsletter signup */
+    .newsletter-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    /* Spotify embed styling */
+    .spotify-embed {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Avatar ring animation */
+    .avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border: 2px solid transparent;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Pulse animation for live indicator */
+    .pulse-live {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.1); }
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      .link-premium { border-radius: 12px; }
+      .product-card { border-radius: 16px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, .particle, .avatar-ring, .scroll-indicator, .pulse-live {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <!-- Floating particles background -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none" id="particles"></div>
+
+  <!-- Gradient orbs -->
+  <div class="fixed top-0 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="relative z-10 max-w-2xl mx-auto px-4 py-8">
+    
+    <!-- Profile Section -->
+    <div class="text-center mb-10">
+      <div class="relative inline-block mb-6">
+        <div class="avatar-ring"></div>
+        <img 
+          src="/images/dh.png" 
+          alt="Profile" 
+          class="w-28 h-28 rounded-full object-cover border-4 border-slate-800"
+        />
+        <!-- Online indicator -->
+        <div class="absolute bottom-2 right-2 w-5 h-5 bg-emerald-500 rounded-full border-3 border-slate-900 pulse-live"></div>
+      </div>
+      
+      <h1 class="font-display text-4xl md:text-5xl font-bold text-white mb-3 glow-text">
+        Digital Harbor
+      </h1>
+      
+      <p class="text-slate-400 text-lg mb-4 max-w-md mx-auto">
+        {bio}
+      </p>
+
+      <!-- Quick stats -->
+      <div class="flex justify-center gap-6 mb-6">
+        {stats.map(stat => (
+          <div class="text-center">
+            <div class="stat-value text-2xl font-bold">{stat.value}</div>
+            <div class="text-slate-500 text-xs uppercase tracking-wider">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator text-slate-600 mt-4">
+        <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Featured Content: Video -->
+    <div class="mb-8 glow-box rounded-2xl overflow-hidden">
+      <div class="relative" style="padding-bottom: 56.25%;">
+        <iframe 
+          class="absolute inset-0 w-full h-full"
+          src={featuredVideo}
+          title="Featured Video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="bg-slate-900/80 backdrop-blur px-4 py-3 flex items-center justify-between">
+        <span class="text-sm text-slate-400">📺 Latest Video</span>
+        <span class="text-xs text-emerald-400 flex items-center gap-1">
+          <span class="w-2 h-2 bg-emerald-400 rounded-full pulse-live"></span>
+          12.5K views
+        </span>
+      </div>
+    </div>
+
+    <!-- Social Links with Follower Counts -->
+    <div class="mb-8">
+      <h2 class="font-display text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-indigo-500"></span>
+        Follow Me
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-indigo-500"></span>
+      </h2>
+      <div class="grid grid-cols-2 gap-3">
+        {socialLinks.map(link => (
+          <a 
+            href={link.href}
+            class={`link-premium p-4 flex items-center gap-3 bg-gradient-to-r ${link.gradient}`}
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+              <span class="text-lg">
+                {link.icon === 'instagram' && '📸'}
+                {link.icon === 'tiktok' && '🎵'}
+                {link.icon === 'youtube' && '▶️'}
+                {link.icon === 'twitter' && '𝕏'}
+              </span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm">{link.label}</div>
+              <div class="text-white/60 text-xs">{link.followers} followers</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Products/Services Section -->
+    <div class="mb-8">
+      <h2 class="font-display text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-indigo-500"></span>
+        Shop & Services
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-indigo-500"></span>
+      </h2>
+      <div class="grid gap-3">
+        {products.map(product => (
+          <a href={product.href} class="product-card p-4 flex items-center gap-4 group">
+            {product.badge && <span class="badge">{product.badge}</span>}
+            <div class={`w-12 h-12 rounded-xl bg-gradient-to-br ${product.gradient} flex items-center justify-center text-xl shadow-lg`}>
+              {product.icon === 'calendar' && '📅'}
+              {product.icon === 'play' && '🎬'}
+              {product.icon === 'download' && '📦'}
+              {product.icon === 'shop' && '👕'}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white group-hover:text-indigo-300 transition-colors">{product.label}</div>
+              <div class="text-slate-500 text-sm">{product.description}</div>
+            </div>
+            <div class="text-right">
+              <div class="font-bold text-emerald-400">{product.price}</div>
+              <div class="text-slate-600 text-xs">View →</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Spotify Embed -->
+    <div class="mb-8">
+      <h2 class="font-display text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-emerald-500"></span>
+        Now Playing
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-emerald-500"></span>
+      </h2>
+      <div class="spotify-embed glow-box">
+        <iframe 
+          src={spotifyEmbed}
+          width="100%" 
+          height="152" 
+          frameborder="0" 
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="mb-8">
+      <h2 class="font-display text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-rose-500"></span>
+        Upcoming Events
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-rose-500"></span>
+      </h2>
+      <div class="space-y-3">
+        {events.map(event => (
+          <div class="event-card rounded-xl p-4 flex items-center gap-4">
+            <div class="text-center min-w-[50px]">
+              <div class="text-indigo-400 font-bold text-lg">{event.date.split(' ')[1]}</div>
+              <div class="text-slate-500 text-xs uppercase">{event.date.split(' ')[0]}</div>
+            </div>
+            <div class="flex-1">
+              <div class="font-semibold text-white">{event.title}</div>
+              <div class="text-slate-500 text-sm">{event.time} • {event.platform}</div>
+            </div>
+            <button class="px-4 py-2 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 rounded-lg text-sm font-medium transition-colors">
+              RSVP
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="mb-8">
+      <h2 class="font-display text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+        <span class="w-8 h-px bg-gradient-to-r from-transparent to-amber-500"></span>
+        What People Say
+        <span class="w-8 h-px bg-gradient-to-l from-transparent to-amber-500"></span>
+      </h2>
+      <div class="grid gap-3">
+        {testimonials.map(t => (
+          <div class="testimonial p-4 pl-6">
+            <p class="text-slate-300 text-sm mb-2">{t.text}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500"></div>
+              <span class="text-slate-400 text-xs">{t.author}</span>
+              <span class="text-slate-600 text-xs">• {t.role}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Newsletter Signup -->
+    <div class="mb-8 newsletter-box rounded-2xl p-6 text-center">
+      <div class="text-3xl mb-2">📬</div>
+      <h3 class="font-display text-xl font-bold text-white mb-2">Join the Newsletter</h3>
+      <p class="text-slate-400 text-sm mb-4">Get exclusive content, early access, and weekly insights.</p>
+      <form class="flex gap-2 max-w-sm mx-auto">
+        <input 
+          type="email" 
+          placeholder="your@email.com" 
+          class="flex-1 px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+        />
+        <button 
+          type="submit"
+          class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-indigo-500/25"
+        >
+          Subscribe
+        </button>
+      </form>
+      <p class="text-slate-600 text-xs mt-3">Join 50,000+ subscribers. No spam, ever.</p>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="text-center mb-8">
+      <a 
+        href="mailto:nic@mydigitalharbor.com"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold rounded-2xl transition-all hover:scale-105 hover:shadow-xl hover:shadow-purple-500/25"
+      >
+        <span>💼</span>
+        <span>Work With Me</span>
+      </a>
+    </div>
+
+    <!-- Premium Badge -->
+    <div class="text-center text-slate-600 text-xs">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-slate-900/50 rounded-full border border-slate-800">
+        <span>⚡</span>
+        <span>Premium Digital Harbor</span>
+        <span class="text-indigo-400">•</span>
+        <a href="/" class="text-indigo-400 hover:text-indigo-300">Get yours →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      if (!container) return;
+      
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    // Intersection Observer for scroll animations
+    function initScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.link-premium, .product-card, .testimonial, .event-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.observe(el);
+      });
+    }
+
+    // Add animate-in styles
+    const style = document.createElement('style');
+    style.textContent = '.animate-in { opacity: 1 !important; transform: translateY(0) !important; }';
+    document.head.appendChild(style);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        createParticles();
+        initScrollAnimations();
+      }
+    });
+  </script>
+</LinkPageLayout>
