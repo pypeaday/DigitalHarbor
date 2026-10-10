@@ -1,0 +1,602 @@
+---
+import LinkPageLayout from '../../layouts/LinkPageLayout.astro';
+
+const title = "1Man1Band";
+const tagline = "One Man. Every Instrument. Infinite Sound.";
+const description = "Josh Payne - One-Man-Band from Cedar Rapids, Iowa. Live looping, multi-instrumental performances that will blow your mind.";
+const bio = "Josh Payne takes his years of performance experience from all genres to create a sound like no other. Imagine hearing multiple voices and instruments and seeing only one man on stage creating it all right before your eyes.";
+
+const galleryImages = [
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/Josh-1009-F.jpg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/Josh-1016-F.jpg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/Josh-1022-F.jpg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/Josh-1023-F.jpg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/Josh-1035-F.jpg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-05-05-200047.jpeg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-05-05-200207.jpeg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-05-05-200213.jpeg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-06-02-144346.jpeg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-06-02-144508.jpeg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-06-02-144553.jpeg",
+  "https://raw.githubusercontent.com/DigitalHarbor7/DigitalHarbor/refs/heads/main/website/1man1-band/gallery/signal-2025-06-02-144425.jpeg",
+];
+
+const stats = [
+  { value: "10+", label: "Countries" },
+  { value: "100+", label: "Shows" },
+  { value: "∞", label: "Energy" },
+];
+---
+
+<LinkPageLayout 
+  title={title} 
+  description={description}
+  image="/images/josh1.jpg"
+  themeColor="#f59e0b"
+  bgGradient="from-black via-zinc-950 to-black"
+>
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-dark: #d97706;
+      --warm-white: #fef3c7;
+    }
+
+    * { font-family: 'Inter', system-ui, sans-serif; }
+    .font-display { font-family: 'Bebas Neue', sans-serif; }
+
+    /* Spotlight/stage lighting effect */
+    .stage-lights {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 20% 100%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245, 158, 11, 0.1) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Animated sound waves */
+    .sound-wave {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wave-bar {
+      width: 4px;
+      background: linear-gradient(to top, var(--gold), var(--gold-light));
+      border-radius: 2px;
+      animation: wave-pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes wave-pulse {
+      0%, 100% { height: 20px; }
+      50% { height: var(--height, 60px); }
+    }
+
+    /* Profile image with golden ring */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--gold), var(--gold-light), var(--gold), var(--gold-dark), var(--gold));
+      animation: ring-spin 4s linear infinite;
+    }
+
+    @keyframes ring-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .profile-img {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid black;
+      z-index: 1;
+    }
+
+    /* Glowing title */
+    .glow-title {
+      text-shadow: 
+        0 0 20px rgba(245, 158, 11, 0.5),
+        0 0 40px rgba(245, 158, 11, 0.3),
+        0 0 60px rgba(245, 158, 11, 0.2);
+    }
+
+    /* Premium link cards */
+    .link-card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(39, 39, 42, 0.9), rgba(24, 24, 27, 0.95));
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(245, 158, 11, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .link-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: var(--gold);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(245, 158, 11, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .link-card:hover::before {
+      opacity: 1;
+    }
+
+    .link-card .icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .link-card:hover .icon-wrapper {
+      transform: scale(1.1);
+    }
+
+    /* Gallery slideshow */
+    .gallery-container {
+      position: relative;
+      aspect-ratio: 16/10;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #18181b;
+      border: 2px solid rgba(245, 158, 11, 0.3);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .gallery-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-nav {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .gallery-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .gallery-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+
+    /* Video embed */
+    .video-wrapper {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 2px rgba(245, 158, 11, 0.3);
+    }
+
+    .video-wrapper::before {
+      content: 'LIVE PERFORMANCE';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 6px 12px;
+      background: var(--gold);
+      color: black;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border-radius: 4px;
+      z-index: 10;
+    }
+
+    /* Support/tip button */
+    .tip-button {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: black;
+      font-weight: 700;
+      border-radius: 50px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tip-button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tip-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+    }
+
+    .tip-button:hover::before {
+      opacity: 1;
+    }
+
+    .tip-button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Stats */
+    .stat-card {
+      background: rgba(39, 39, 42, 0.5);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    /* Booking CTA */
+    .booking-cta {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .booking-cta::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(245, 158, 11, 0.1), transparent 30%);
+      animation: cta-shine 4s linear infinite;
+    }
+
+    @keyframes cta-shine {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Scroll animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, .profile-ring, .wave-bar, .booking-cta::before {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <!-- Stage lighting effect -->
+  <div class="stage-lights"></div>
+
+  <!-- Sound wave visualizer -->
+  <div class="sound-wave" id="soundWave"></div>
+
+  <div class="relative z-10 max-w-2xl mx-auto px-4 py-8">
+    
+    <!-- Hero Section -->
+    <div class="text-center mb-10 fade-up">
+      <!-- Profile with spinning gold ring -->
+      <div class="profile-container mb-6">
+        <div class="profile-ring"></div>
+        <img 
+          src="https://mydigitalharbor.com/assets/images/josh1.jpg" 
+          alt="Joshua Payne - 1Man1Band" 
+          class="profile-img"
+        />
+      </div>
+
+      <!-- Name & Tagline -->
+      <h1 class="font-display text-6xl md:text-7xl text-white glow-title tracking-wide mb-2">
+        {title}
+      </h1>
+      <p class="text-lg md:text-xl text-amber-200/80 font-medium tracking-wider uppercase mb-4">
+        {tagline}
+      </p>
+      
+      <!-- Bio -->
+      <p class="text-zinc-400 text-base max-w-lg mx-auto leading-relaxed">
+        {bio}
+      </p>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-3 mt-8 max-w-sm mx-auto">
+        {stats.map(stat => (
+          <div class="stat-card">
+            <div class="stat-value">{stat.value}</div>
+            <div class="text-zinc-500 text-xs uppercase tracking-wider">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Featured Video -->
+    <div class="mb-10 fade-up">
+      <div class="video-wrapper">
+        <div style="padding-bottom: 56.25%; position: relative;">
+          <iframe 
+            class="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/CxV48r32GxM?si=7eLUxSYlIMpmf6Fx" 
+            title="1Man1Band Live Performance" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="mb-8 fade-up">
+      <h2 class="font-display text-2xl text-white text-center mb-4 tracking-wide">Follow The Journey</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <a href="https://instagram.com/1man.1band" class="link-card p-4 flex items-center gap-3" target="_blank" rel="noopener">
+          <div class="icon-wrapper bg-gradient-to-br from-pink-500 to-purple-600">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-white font-semibold text-sm">Instagram</div>
+            <div class="text-zinc-500 text-xs">@1man.1band</div>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/@1Man1Band34" class="link-card p-4 flex items-center gap-3" target="_blank" rel="noopener">
+          <div class="icon-wrapper bg-red-600">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-white font-semibold text-sm">YouTube</div>
+            <div class="text-zinc-500 text-xs">Watch Live</div>
+          </div>
+        </a>
+
+        <a href="https://www.facebook.com/1man1band" class="link-card p-4 flex items-center gap-3" target="_blank" rel="noopener">
+          <div class="icon-wrapper bg-blue-600">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-white font-semibold text-sm">Facebook</div>
+            <div class="text-zinc-500 text-xs">Join the community</div>
+          </div>
+        </a>
+
+        <a href="mailto:JoshPayneMusic@gmail.com" class="link-card p-4 flex items-center gap-3">
+          <div class="icon-wrapper bg-amber-500">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-white font-semibold text-sm">Email</div>
+            <div class="text-zinc-500 text-xs">Get in touch</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <div class="mb-10 fade-up">
+      <h2 class="font-display text-2xl text-white text-center mb-4 tracking-wide">On Stage</h2>
+      <div class="gallery-container" id="gallery">
+        {galleryImages.map((src, i) => (
+          <div class={`slide ${i === 0 ? 'active' : ''}`}>
+            <img src={src} alt={`Performance ${i + 1}`} loading="lazy" />
+          </div>
+        ))}
+        <div class="gallery-nav">
+          {galleryImages.map((_, i) => (
+            <div class={`gallery-dot ${i === 0 ? 'active' : ''}`} data-index={i}></div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Support Section -->
+    <div class="mb-8 fade-up">
+      <div class="booking-cta p-6 text-center">
+        <div class="relative z-10">
+          <div class="text-3xl mb-2">🎸</div>
+          <h3 class="font-display text-2xl text-white mb-2">Support The Music</h3>
+          <p class="text-zinc-400 text-sm mb-4">Every tip helps keep the music alive</p>
+          <div class="flex gap-3 justify-center flex-wrap">
+            <a href="https://www.paypal.com/JPayne3421" class="tip-button px-6 py-3 flex items-center gap-2" target="_blank" rel="noopener">
+              <span>💙 Paypal</span>
+            </a>
+            <a href="https://cash.app/JPayne3421/amount" class="tip-button px-6 py-3 flex items-center gap-2" target="_blank" rel="noopener">
+              <span>💚 Cash App</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking CTA -->
+    <div class="text-center fade-up">
+      <a 
+        href="mailto:JoshPayneMusic@gmail.com?subject=Booking%20Inquiry"
+        class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold text-lg rounded-full transition-all hover:scale-105 hover:shadow-xl hover:shadow-amber-500/30"
+      >
+        <span>🎤</span>
+        <span>Book Me For Your Event</span>
+      </a>
+      <p class="text-zinc-600 text-xs mt-3">Weddings • Private Events • Bars & Restaurants • Festivals</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Sound wave visualizer
+    function createSoundWaves() {
+      const container = document.getElementById('soundWave');
+      if (!container) return;
+      
+      const barCount = Math.floor(window.innerWidth / 8);
+      for (let i = 0; i < barCount; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'wave-bar';
+        bar.style.setProperty('--height', `${20 + Math.random() * 80}px`);
+        bar.style.animationDelay = `${Math.random() * 1}s`;
+        container.appendChild(bar);
+      }
+    }
+
+    // Gallery slideshow
+    function initGallery() {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.gallery-dot');
+      let current = 0;
+      let interval: ReturnType<typeof setInterval>;
+
+      function showSlide(index: number) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = index;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+
+      function nextSlide() {
+        showSlide((current + 1) % slides.length);
+      }
+
+      function startAutoplay() {
+        interval = setInterval(nextSlide, 4000);
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          clearInterval(interval);
+          showSlide(i);
+          startAutoplay();
+        });
+      });
+
+      const gallery = document.getElementById('gallery');
+      if (gallery) {
+        gallery.addEventListener('click', (e) => {
+          if (!(e.target as Element).classList.contains('gallery-dot')) {
+            clearInterval(interval);
+            nextSlide();
+            startAutoplay();
+          }
+        });
+      }
+
+      startAutoplay();
+    }
+
+    // Scroll animations
+    function initScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, i * 100);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        createSoundWaves();
+      }
+      initGallery();
+      initScrollAnimations();
+    });
+  </script>
+</LinkPageLayout>

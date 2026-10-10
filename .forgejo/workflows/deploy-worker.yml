@@ -1,0 +1,36 @@
+name: Deploy Worker
+
+# Deploys the Astro SSR + EmDash site to Cloudflare Workers (main only).
+#
+# No preview deploys on purpose: EmDash auto-runs DB migrations on first
+# request, so a preview worker sharing the prod D1 could migrate the prod
+# schema out from under the live site. A real preview env needs separate
+# D1/R2 bindings (env.preview block + build-time CLOUDFLARE_ENV, same
+# pattern as the reveal-fitness site).
+#
+# Required Forgejo secrets:
+#   CLOUDFLARE_API_TOKEN  — Workers Scripts:Edit on the nicpayne713 account
+#   CLOUDFLARE_ACCOUNT_ID
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy worker
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

@@ -1,0 +1,226 @@
+---
+// Plain-English one-pager for business owners — the QR/onboarding page.
+// Deliberately zero jargon: no "hosting", "CMS", or "domains" unexplained.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  Globe,
+  ShieldCheck,
+  PencilLine,
+  Mail,
+  QrCode,
+  PhoneCall,
+  ArrowRight,
+} from 'lucide-astro';
+import { SITES } from '../data/sites';
+
+const clientSites = SITES.filter((s) => s.group === 'clients' && !s.demo);
+const demoSites = SITES.filter((s) => s.group === 'clients' && s.demo);
+
+const offerings = [
+  {
+    icon: Globe,
+    title: 'A website, built for you',
+    body: 'A fast, professional site designed around your business — your photos, your services, your story. You approve it before anyone ever sees it.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'It just stays online',
+    body: "The computers that keep your site up, the security, the updates, the 2am fixes — that's our problem, never yours. You'll never touch any of it.",
+  },
+  {
+    icon: PencilLine,
+    title: 'You can still change things',
+    body: "New photos, a price change, this week's special — you get a simple editing page that's easier than posting to Facebook. Or text us and we'll do it for you.",
+  },
+  {
+    icon: Mail,
+    title: 'Email on your name',
+    body: 'you@yourbusiness.com instead of a gmail address. It looks professional on every invoice and business card — we set it up and keep it working.',
+  },
+  {
+    icon: QrCode,
+    title: 'QR codes that pull customers in',
+    body: 'For your counter, your flyers, your business cards — a customer scans one and lands on your site, your menu, or your booking page.',
+  },
+  {
+    icon: PhoneCall,
+    title: 'A real person to call',
+    body: "No support tickets, no call center, no 'have you tried turning it off and on.' You text or email us, and it's handled.",
+  },
+];
+
+const steps = [
+  {
+    n: '1',
+    title: 'We talk',
+    body: 'Fifteen minutes about your business — what you do, what you need customers to find. Coffee works too.',
+  },
+  {
+    n: '2',
+    title: 'We build it',
+    body: 'You get a link to look at, on your phone and your computer. We change anything you don’t like.',
+  },
+  {
+    n: '3',
+    title: 'It goes live — and stays that way',
+    body: 'Your site goes up and we keep it running. When you need a change, you tell us or do it yourself in two minutes.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'I barely know what a website is. Is this for me?',
+    a: "Yes — that's exactly who this is for. You don't need to learn anything about websites. You run your business; we handle the internet part.",
+  },
+  {
+    q: 'Do I have to update it myself?',
+    a: 'No. You can — the editing page is genuinely simple — but plenty of owners just text us the new photo or price and it\'s done the same day.',
+  },
+  {
+    q: 'What does it cost?',
+    a: "One flat monthly rate covers the site, keeping it online, and your changes — no surprise invoices. The number depends on what your business needs, which is what the first conversation is for.",
+  },
+  {
+    q: 'I already have a website. Can you take it over?',
+    a: 'Usually, yes. We can move it, fix what\'s broken, and keep it running — or rebuild it properly if it\'s past saving. We\'ll tell you honestly which.',
+  },
+];
+---
+
+<BaseLayout
+  title="Digital Harbor — Your website, handled"
+  description="We build your business's website and keep it running — updates, email, and QR codes, all handled by a team you can actually reach."
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="contour-field" aria-hidden="true"></div>
+    <div class="lantern-glow left-1/2 top-24 h-96 w-[52rem] -translate-x-1/2" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-6xl px-4 pb-20 pt-24 md:pt-32">
+      <p class="kicker mb-6">For local business</p>
+
+      <h1 class="display max-w-3xl text-5xl leading-[1.05] md:text-6xl">
+        You run your business. We'll run your <em class="text-brass">website</em>.
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-mute">
+        We build it, keep it online, and handle every update you don't want to
+        deal with. If you can send a text, you can have a professional website.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-3">
+        <a href="/contact" class="btn-brass">Tell us about your business</a>
+        <a href="#what-you-get" class="btn-ghost">
+          What you get <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+
+      <p class="mt-8 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">
+        If a QR code brought you here — that worked, didn't it?
+      </p>
+    </div>
+  </section>
+
+  <!-- What you get -->
+  <section id="what-you-get" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-16">
+    <p class="kicker mb-3">What you get</p>
+    <h2 class="display mb-4 text-3xl md:text-4xl">The whole thing, handled</h2>
+    <p class="mb-12 max-w-lg text-ink-mute">
+      Everything a business needs online — explained in plain terms, covered by
+      one monthly rate.
+    </p>
+
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        offerings.map((o) => (
+          <div class="card-dock flex flex-col">
+            <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg border border-brass/25 bg-brass/10">
+              <o.icon class="h-5 w-5 text-brass" />
+            </div>
+            <h3 class="display text-lg">{o.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-mute">{o.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- How it goes -->
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <p class="kicker mb-3">How it goes</p>
+    <h2 class="display mb-12 text-3xl md:text-4xl">Three steps, no homework</h2>
+
+    <ol class="grid gap-8 md:grid-cols-3">
+      {
+        steps.map((s) => (
+          <li>
+            <span class="font-mono text-sm text-brass">{s.n}</span>
+            <h3 class="mt-2 display text-xl">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-mute">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- Proof -->
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <p class="kicker mb-3">See the work</p>
+    <h2 class="display mb-4 text-3xl md:text-4xl">
+      Real sites, kept running
+    </h2>
+    <p class="mb-8 max-w-lg text-ink-mute">
+      Sites we built and keep online — for businesses we work with, plus a
+      few demos we made ourselves so you can see exactly what you'd get.
+      Every one is live right now.
+    </p>
+    <ul class="flex flex-wrap gap-x-8 gap-y-2 font-mono text-sm text-ink">
+      {clientSites.map((c) => <li>{c.name}</li>)}
+      {demoSites.map((c) => <li class="text-ink-faint">{c.name} <span class="text-brass">· demo</span></li>)}
+    </ul>
+    <a
+      href="/sites"
+      class="mt-6 inline-flex items-center gap-1.5 text-sm text-water transition-colors hover:text-brass"
+    >
+      See them all live <ArrowRight class="h-4 w-4" />
+    </a>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- Plain questions -->
+  <section class="mx-auto max-w-3xl px-4 py-16">
+    <p class="kicker mb-3">Fair questions</p>
+    <h2 class="display mb-10 text-3xl md:text-4xl">What owners usually ask</h2>
+
+    <dl class="space-y-8">
+      {
+        faqs.map((f) => (
+          <div>
+            <dt class="display text-lg">{f.q}</dt>
+            <dd class="mt-2 leading-relaxed text-ink-mute">{f.a}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-6xl px-4 py-24 text-center">
+    <p class="kicker mb-4">One email starts it</p>
+    <h2 class="display mx-auto max-w-2xl text-4xl md:text-5xl">
+      Tell us about your <em class="text-brass">business</em>
+    </h2>
+    <p class="mx-auto mt-5 max-w-md text-ink-mute">
+      No forms to fill out, no technical questions. Just tell us what you do —
+      we'll tell you honestly what you need (and what you don't).
+    </p>
+    <a href="/contact" class="btn-brass mt-10 text-lg"> Start the conversation </a>
+  </section>
+</BaseLayout>

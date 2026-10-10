@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import {
+  MonitorSmartphone,
+  Wrench,
+  Link2,
+  Bell,
+  ShieldCheck,
+  Mail,
+  QrCode,
+  PencilLine,
+  Eye,
+  PhoneCall,
+  ArrowRight,
+} from 'lucide-astro';
+import { getEmDashCollection } from 'emdash';
+
+const servicesResult = await getEmDashCollection('services', {
+  orderBy: { sort_order: 'asc' },
+  limit: 50,
+});
+if (Astro.cache?.enabled && servicesResult.cacheHint) {
+  Astro.cache.set(servicesResult.cacheHint);
+}
+
+const icons = [MonitorSmartphone, Wrench, Link2, Bell];
+const services = servicesResult.entries
+  // notifiq is our own product, not a service a business buys — homepage only
+  .filter((s) => s.data.show_on_home === true && s.slug !== 'notifiq')
+  .map((s, i) => ({
+    icon: icons[i % icons.length],
+    kicker: s.data.kicker ?? 'Service',
+    title: s.data.title,
+    description: s.data.description ?? '',
+    features: (s.data.features ?? []).map(
+      (f: { text?: string }) => f.text ?? '',
+    ),
+    ctaText: s.data.cta_label ?? 'Learn more',
+    ctaHref: s.data.cta_url ?? '/contact',
+  }));
+
+const included = [
+  {
+    icon: ShieldCheck,
+    title: 'Kept online',
+    body: 'Hosting, security, and updates — all handled. Your site staying up is our job, not yours.',
+  },
+  {
+    icon: Eye,
+    title: 'Watched around the clock',
+    body: 'We monitor every site we run. If something breaks, we usually know before you do.',
+  },
+  {
+    icon: PencilLine,
+    title: 'Changes on request',
+    body: 'New photo, new price, new hours — send it over or do it yourself on the editing page.',
+  },
+  {
+    icon: Mail,
+    title: 'Email on your name',
+    body: 'you@yourbusiness.com instead of a gmail — set up for you and kept working.',
+  },
+  {
+    icon: QrCode,
+    title: 'QR codes for print',
+    body: 'Counter, flyers, business cards — codes that send real customers to your site.',
+  },
+  {
+    icon: PhoneCall,
+    title: 'A real person to call',
+    body: 'No tickets, no call center. You reach us directly and it gets handled.',
+  },
+];
+---
+
+<BaseLayout
+  title="Services — Digital Harbor"
+  description="Websites for local businesses — built, kept online, and easy to update. Email on your domain and QR codes included."
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="contour-field" aria-hidden="true"></div>
+    <div class="lantern-glow left-1/2 top-24 h-96 w-[52rem] -translate-x-1/2" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-6xl px-4 pb-16 pt-24 md:pt-32">
+      <p class="kicker mb-6">Services</p>
+      <h1 class="display max-w-3xl text-5xl leading-[1.05] md:text-6xl">
+        Everything a business needs <em class="text-brass">online</em>
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-mute">
+        Three ways to work together — all built and kept running by the same
+        team, all for one flat monthly rate. We quote after we know what your
+        business needs; there are no surprise invoices.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-3">
+        <a href="/contact" class="btn-brass">Start a project</a>
+        <a href="/sites" class="btn-ghost">
+          See the work <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service cards -->
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <div class="grid gap-5 md:grid-cols-3">
+      {services.map((s) => <ServiceCard {...s} />)}
+    </div>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- Included in every plan -->
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <p class="kicker mb-3">Included</p>
+    <h2 class="display mb-4 text-3xl md:text-4xl">
+      Every site we run comes with
+    </h2>
+    <p class="mb-12 max-w-lg text-ink-mute">
+      Not add-ons, not upsells — this is just how we work. It's all covered by
+      the same monthly rate.
+    </p>
+
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        included.map((o) => (
+          <div class="card-dock flex flex-col">
+            <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg border border-brass/25 bg-brass/10">
+              <o.icon class="h-5 w-5 text-brass" />
+            </div>
+            <h3 class="display text-lg">{o.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-mute">{o.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- Beyond the standard site -->
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <div class="grid items-center gap-10 md:grid-cols-2">
+      <div>
+        <p class="kicker mb-3">Beyond the standard site</p>
+        <h2 class="display mb-4 text-3xl md:text-4xl">
+          Need something bigger?
+        </h2>
+        <p class="leading-relaxed text-ink-mute">
+          Online booking, member areas, internal tools, custom apps — we've
+          built field-trip scheduling, class timetables, and quote systems for
+          real businesses. If your needs outgrow a standard site, we scope it
+          and build it. Priced per project.
+        </p>
+        <a
+          href="/contact"
+          class="mt-6 inline-flex items-center gap-1.5 text-sm text-water transition-colors hover:text-brass"
+        >
+          Tell us what you're imagining <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+      <div class="card-dock">
+        <p class="kicker mb-4">Already built, already running</p>
+        <ul class="space-y-3 text-sm text-ink-mute">
+          <li class="flex gap-2"><span class="text-signal">→</span> Field-trip booking for an orchard — requests land straight in the office inbox</li>
+          <li class="flex gap-2"><span class="text-signal">→</span> Weekly class schedule + sign-up forms for a fitness studio</li>
+          <li class="flex gap-2"><span class="text-signal">→</span> Quote-request pipeline for a power-washing company</li>
+          <li class="flex gap-2"><span class="text-signal">→</span> Sermon audio publishing for a church</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hairline mx-auto max-w-6xl" />
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-6xl px-4 py-24 text-center">
+    <p class="kicker mb-4">One email starts it</p>
+    <h2 class="display mx-auto max-w-2xl text-4xl md:text-5xl">
+      Tell us about your <em class="text-brass">business</em>
+    </h2>
+    <p class="mx-auto mt-5 max-w-md text-ink-mute">
+      We'll tell you honestly what you need — and just as honestly what you
+      don't.
+    </p>
+    <a href="/contact" class="btn-brass mt-10 text-lg">Start the conversation</a>
+  </section>
+</BaseLayout>

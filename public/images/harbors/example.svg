@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="showcase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#ec4899"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="#0f0a1a"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="url(#showcase)" stroke-width="2" opacity="0.4"/>
+  <!-- Star/sparkle -->
+  <path d="M50 20 L53 40 L73 43 L53 46 L50 66 L47 46 L27 43 L47 40 Z" fill="url(#showcase)"/>
+  <!-- Smaller sparkles -->
+  <circle cx="30" cy="30" r="3" fill="url(#showcase)" opacity="0.6"/>
+  <circle cx="75" cy="65" r="4" fill="url(#showcase)" opacity="0.5"/>
+  <circle cx="25" cy="70" r="2" fill="url(#showcase)" opacity="0.4"/>
+</svg>

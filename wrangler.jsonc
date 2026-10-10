@@ -1,0 +1,62 @@
+{
+  "name": "mydigitalharbor",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2025-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "preview_urls": true,
+  "workers_dev": true,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  // Destinations are created once per account in the CF dashboard
+  // (Observability → Destinations), not here — names must already exist.
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "destinations": ["signoz-logs"],
+      "head_sampling_rate": 1.0,
+      "persist": false
+    },
+    "traces": {
+      "enabled": true,
+      "destinations": ["signoz-traces"],
+      "head_sampling_rate": 1.0,
+      "persist": false
+    }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mydigitalharbor",
+      "database_id": "f728a9bc-4e70-40f3-b9a5-616db2e5d570"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "mydigitalharbor-media"
+    }
+  ],
+  "routes": [
+    { "pattern": "mydigitalharbor.com", "custom_domain": true },
+    { "pattern": "www.mydigitalharbor.com", "custom_domain": true }
+  ],
+  "triggers": {
+    "crons": ["7 * * * *"]
+  },
+  // Non-secret config. Secrets go in .dev.vars (local) / `wrangler secret put` (deployed):
+  //   EMDASH_ENCRYPTION_KEY — required by EmDash
+  //   DEVIN_API_KEY — apk_* key from app.devin.ai → Settings → API, enables live session status
+  //   OPS_KEY       — any string; ?key=<OPS_KEY> unlocks per-site ops details
+  //   OPS_DATA      — JSON { "<slug>": { accountName, accountId, worker, repoPath, notes } }
+  //   RESEND_API_KEY — re_* from resend.com, sends contact-form leads
+  "vars": {
+    "DEVIN_API_BASE": "https://api.devin.ai/v1",
+    "LEADS_TO_EMAIL": "nic@mydigitalharbor.com",
+    "LEADS_FROM_EMAIL": "Digital Harbor <harbor@mydigitalharbor.com>",
+    // Cloudflare Web Analytics (cookieless RUM) — beacon rendered in layouts when set.
+    "CF_ANALYTICS_TOKEN": "83654d8752174221937a8879c1ae2617"
+  }
+}

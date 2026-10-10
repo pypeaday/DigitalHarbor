@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ArrowRight } from 'lucide-astro';
+
+const galleries = [
+  {
+    href: '/qr/professional',
+    kicker: 'Clean & branded',
+    title: 'Professional',
+    body: 'QR codes in your brand colors with your logo at the center — for business cards, flyers, and storefronts.',
+    images: [
+      '/qr/professional/26-04-2024_15-06-58-0-qr.png',
+      '/qr/professional/26-04-2024_15-21-12-1-qr.png',
+      '/qr/professional/24-04-2024_08-50-21-qr.png',
+    ],
+  },
+  {
+    href: '/qr/artisanal',
+    kicker: 'AI-art',
+    title: 'Artisanal',
+    body: 'QR codes that double as visual art — a unique piece that matches your business and still scans every time.',
+    images: [
+      '/qr/artisanal/galaxy.png',
+      '/qr/artisanal/beach-sunrise.png',
+      '/qr/artisanal/nyc-cyberpunk.png',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="QR Codes — Digital Harbor"
+  description="QR codes worth scanning — clean branded codes and AI-art designs that send customers to your site."
+>
+  <section class="mx-auto max-w-6xl px-4 pb-16 pt-24">
+    <p class="kicker mb-4">QR studio</p>
+    <h1 class="display text-4xl md:text-5xl">
+      Codes worth <em class="text-brass">scanning</em>
+    </h1>
+    <p class="mt-4 max-w-xl text-ink-mute">
+      Two styles — clean branded codes for everyday print, and one-of-a-kind
+      art codes for the pieces that need to get noticed. Every one scans,
+      every time.
+    </p>
+
+    <div class="mt-12 grid gap-5 md:grid-cols-2">
+      {
+        galleries.map((g) => (
+          <a href={g.href} class="card-dock group flex flex-col">
+            <div class="-mx-6 -mt-6 mb-5 grid grid-cols-3 gap-px overflow-hidden border-b border-white/5 bg-white/5">
+              {g.images.map((img) => (
+                <img
+                  src={img}
+                  alt=""
+                  loading="lazy"
+                  class="aspect-square w-full object-cover opacity-80 saturate-[0.8] transition-all duration-300 group-hover:opacity-100 group-hover:saturate-100"
+                />
+              ))}
+            </div>
+            <p class="kicker mb-1">{g.kicker}</p>
+            <h2 class="display flex items-center gap-2 text-2xl">
+              {g.title}
+              <ArrowRight class="h-5 w-5 text-brass transition-transform group-hover:translate-x-1" />
+            </h2>
+            <p class="mt-2 text-sm leading-relaxed text-ink-mute">{g.body}</p>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="mt-12 text-center text-sm text-ink-faint">
+      Want codes like these for your business?
+      <a href="/contact" class="text-water transition-colors hover:text-brass"> Tell us what they should point to.</a>
+    </p>
+  </section>
+</BaseLayout>

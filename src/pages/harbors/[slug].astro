@@ -1,0 +1,60 @@
+---
+// Dynamic link pages — `linkpages` collection entries. The 7 bespoke
+// harbor pages are concrete routes and take precedence; this renderer
+// catches every slug that isn't one of them.
+import { getEmDashEntry } from 'emdash';
+import { Image } from 'emdash/ui';
+import { Anchor, ExternalLink } from 'lucide-astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const slug = Astro.params.slug;
+const { entry, cacheHint } = await getEmDashEntry('linkpages', slug);
+if (!entry) return Astro.redirect('/404');
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const d = entry.data as {
+  title: string;
+  tagline?: string;
+  description?: string;
+  accent?: string;
+  avatar?: { src: string; alt?: string };
+  links?: Array<{ label: string; url: string }>;
+  footer_note?: string;
+};
+const accent = d.accent || '#E0A458';
+const links = d.links ?? [];
+---
+
+<BaseLayout title={d.title} description={d.tagline ?? d.description}>
+  <section class="mx-auto flex min-h-[70vh] max-w-md flex-col items-center px-4 py-20 text-center">
+    {d.avatar && (
+      <div class="mb-6 h-20 w-20 overflow-hidden rounded-2xl border border-white/10">
+        <Image image={d.avatar} class="h-full w-full object-cover" />
+      </div>
+    )}
+
+    <h1 class="display text-3xl">{d.title}</h1>
+    {d.tagline && <p class="mt-2 text-ink-mute">{d.tagline}</p>}
+    {d.description && <p class="mt-3 text-sm leading-relaxed text-ink-faint">{d.description}</p>}
+
+    <div class="mt-10 w-full space-y-3">
+      {links.map((l) => (
+        <a
+          href={l.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card-dock flex w-full items-center justify-between px-5 py-4 text-left"
+          style={`--tw-shadow: 0 0 0 1px ${accent}22`}
+        >
+          <span class="font-medium text-ink">{l.label}</span>
+          <ExternalLink class="h-4 w-4 shrink-0" style={`color:${accent}`} />
+        </a>
+      ))}
+    </div>
+
+    <p class="mt-12 flex items-center gap-1.5 font-mono text-[11px] tracking-wide text-ink-faint">
+      <Anchor class="h-3 w-3" />
+      {d.footer_note ?? 'a digital harbor'}
+    </p>
+  </section>
+</BaseLayout>

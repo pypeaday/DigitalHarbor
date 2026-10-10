@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteContent } from '../utils/site';
+
+const site = await getSiteContent();
+const submitted = Astro.url.searchParams.get('submitted') === '1';
+const failed = Astro.url.searchParams.get('error');
+const prefillType = Astro.url.searchParams.get('type') ?? '';
+---
+
+<BaseLayout title="Contact — Digital Harbor" description="Start a project with Digital Harbor.">
+  <section class="mx-auto max-w-2xl px-4 py-24">
+    <p class="kicker mb-4">Open for work</p>
+    <h1 class="display text-4xl md:text-5xl">Come into <em class="text-brass">harbor</em>.</h1>
+    <p class="mt-4 text-ink-mute">
+      Tell us about the business and what you need. We reply personally —
+      usually within a day.
+    </p>
+
+    {submitted ? (
+      <div class="card-dock mt-10 border-signal/40">
+        <p class="font-display text-xl text-signal">Received.</p>
+        <p class="mt-2 text-sm text-ink-mute">
+          Thanks — your note is in. We'll get back to you shortly. If it's
+          urgent, email <a class="text-water hover:text-brass" href={`mailto:${site.email}`}>{site.email}</a> directly.
+        </p>
+      </div>
+    ) : (
+      <form method="POST" action="/api/contact" class="card-dock mt-10 space-y-5">
+        {failed === 'required' && (
+          <p class="rounded-md border border-buoy/40 bg-buoy/10 px-4 py-3 text-sm text-buoy">
+            Name, email, and a short message are required.
+          </p>
+        )}
+
+        <!-- honeypot -->
+        <input type="text" name="_hp" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="name" class="kicker mb-2 block">Name *</label>
+            <input id="name" name="name" required
+              class="w-full rounded-lg border border-white/10 bg-harbor px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-brass/50 focus:outline-none" />
+          </div>
+          <div>
+            <label for="email" class="kicker mb-2 block">Email *</label>
+            <input id="email" name="email" type="email" required
+              class="w-full rounded-lg border border-white/10 bg-harbor px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-brass/50 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="business" class="kicker mb-2 block">Business</label>
+            <input id="business" name="business"
+              class="w-full rounded-lg border border-white/10 bg-harbor px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-brass/50 focus:outline-none" />
+          </div>
+          <div>
+            <label for="project_type" class="kicker mb-2 block">Project type</label>
+            <select id="project_type" name="project_type"
+              class="w-full rounded-lg border border-white/10 bg-harbor px-4 py-2.5 text-ink focus:border-brass/50 focus:outline-none">
+              <option value="website" selected={prefillType === 'website' || !prefillType}>Website</option>
+              <option value="maintenance" selected={prefillType === 'maintenance'}>Hosting & maintenance</option>
+              <option value="linkpage" selected={prefillType === 'linkpage'}>Link page</option>
+              <option value="qr" selected={prefillType === 'qr'}>QR codes</option>
+              <option value="other" selected={prefillType === 'other'}>Something else</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="message" class="kicker mb-2 block">What do you need? *</label>
+          <textarea id="message" name="message" rows={5} required
+            placeholder="A sentence or two is plenty — what the business does, what the site should do."
+            class="w-full rounded-lg border border-white/10 bg-harbor px-4 py-2.5 text-ink placeholder:text-ink-faint focus:border-brass/50 focus:outline-none"></textarea>
+        </div>
+
+        <button type="submit" class="btn-brass w-full">Send it</button>
+        <p class="text-center font-mono text-[11px] text-ink-faint">
+          Goes straight to my inbox — no ticket queue.
+        </p>
+      </form>
+    )}
+  </section>
+</BaseLayout>

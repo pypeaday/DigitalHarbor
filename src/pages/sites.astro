@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteCard from '../components/SiteCard.astro';
+import { env } from 'cloudflare:workers';
+import { SITES } from '../data/sites';
+import { getSiteSessions, getOpsMap, opsAllowed } from '../lib/devin';
+import type { SiteStatus } from '../data/sites';
+const sessions = await getSiteSessions(env, Astro.locals.cfContext, SITES);
+const showOps = opsAllowed(env, Astro.url);
+const opsMap = showOps ? getOpsMap(env) : {};
+
+// The lab group is our own infrastructure — kept off business-facing pages.
+const clients = SITES.filter((s) => s.group === 'clients' && !s.demo);
+const demos = SITES.filter((s) => s.group === 'clients' && s.demo);
+
+const order: SiteStatus[] = ['live', 'building', 'paused', 'planned'];
+const counts = order
+  .map((st) => ({ st, n: SITES.filter((s) => s.status === st).length }))
+  .filter((c) => c.n > 0);
+
+const hasDevin = Object.keys(sessions).length > 0;
+---
+
+<BaseLayout
+  title="Sites — Digital Harbor"
+  description="The living portfolio: every site in the registry, with live build status."
+>
+  <section class="mx-auto max-w-6xl px-4 pb-8 pt-20">
+    <p class="kicker mb-4">Site registry</p>
+    <h1 class="display text-4xl md:text-5xl">Live at the harbor</h1>
+    <p class="mt-4 max-w-xl text-ink-mute">
+      Every site we build and run, in one place.
+      {hasDevin
+        ? 'Status lines update from live build sessions.'
+        : 'Build-session status is offline — showing the static registry.'}
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-x-8 gap-y-2 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">
+      {counts.map(({ st, n }) => (
+        <span>
+          <span class:list={[
+            st === 'live' && 'text-signal',
+            st === 'building' && 'text-brass',
+            (st === 'paused' || st === 'planned') && 'text-ink-mute',
+          ]}>{n}</span> {st}
+        </span>
+      ))}
+      {showOps && <span class="text-buoy">ops view — keyed</span>}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16">
+    <h2 class="kicker mb-6 !text-ink-mute">Clients</h2>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {clients.map((site) => (
+        <SiteCard
+          site={site}
+          sessions={sessions[site.slug]}
+          ops={opsMap[site.slug]}
+          showOps={showOps}
+        />
+      ))}
+    </div>
+  </section>
+
+  {demos.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 pb-16">
+      <h2 class="kicker mb-6 !text-ink-mute">Demos — built by us to prove it</h2>
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {demos.map((site) => (
+          <SiteCard
+            site={site}
+            sessions={sessions[site.slug]}
+            ops={opsMap[site.slug]}
+            showOps={showOps}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-check]').forEach((el) => {
+    const url = el.dataset.check;
+    const dot = el.querySelector<HTMLElement>('.check-dot');
+    if (!url || !dot) return;
+    fetch(url, { mode: 'no-cors', cache: 'no-store' })
+      .then(() => {
+        dot.classList.remove('bg-ink-faint');
+        dot.classList.add('bg-signal');
+        dot.title = 'reachable';
+      })
+      .catch(() => {
+        dot.classList.add('bg-buoy');
+        dot.title = 'unreachable';
+      });
+  });
+</script>

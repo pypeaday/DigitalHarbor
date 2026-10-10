@@ -1,0 +1,34 @@
+---
+import type { OpsInfo } from '../data/sites';
+
+interface Props {
+  ops: OpsInfo;
+}
+
+const { ops } = Astro.props;
+const rows: Array<[string, string | undefined]> = [
+  ['account', ops.accountName],
+  ['account_id', ops.accountId],
+  ['worker', ops.worker],
+  ['factory', ops.factoryDir],
+  ['repo', ops.repoPath],
+];
+---
+
+<div class="mt-4 rounded-lg border border-buoy/25 bg-buoy/5 p-4">
+  <p class="kicker mb-3 !text-buoy">ops — keyed view</p>
+  <dl class="space-y-1.5 font-mono text-[11px] leading-relaxed">
+    {rows.map(([k, v]) => v && (
+      <div class="flex gap-3">
+        <dt class="w-24 shrink-0 text-ink-faint">{k}</dt>
+        <dd class="break-all text-ink-mute">{v}</dd>
+      </div>
+    ))}
+    {ops.notes && (
+      <div class="flex gap-3 pt-1">
+        <dt class="w-24 shrink-0 text-ink-faint">notes</dt>
+        <dd class="text-ink-mute">{ops.notes}</dd>
+      </div>
+    )}
+  </dl>
+</div>

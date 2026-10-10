@@ -1,0 +1,168 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-abyss: #050c15;
+  --color-harbor: #0a1420;
+  --color-dock: #0f1d2c;
+  --color-ink: #e6eef7;
+  --color-ink-mute: #93a7bd;
+  --color-ink-faint: #5e748c;
+  --color-brass: #e0a458;
+  --color-brass-hi: #efb871;
+  --color-signal: #4fd1a5;
+  --color-buoy: #e07856;
+  --color-water: #3ba7b8;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --animate-pulse-soft: pulseSoft 2.4s ease-in-out infinite;
+  --animate-contour-drift: contourDrift 60s linear infinite;
+
+  @keyframes pulseSoft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+
+  @keyframes contourDrift {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-600px);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-abyss text-ink antialiased;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(224, 164, 88, 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid #e0a458;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .btn-brass {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg
+           transition-all duration-200 cursor-pointer;
+    background: linear-gradient(135deg, #e0a458 0%, #c98a3d 100%);
+    color: #0a1420;
+    box-shadow: 0 2px 16px rgba(224, 164, 88, 0.25);
+  }
+
+  .btn-brass:hover {
+    box-shadow: 0 4px 24px rgba(224, 164, 88, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 font-medium rounded-lg
+           transition-all duration-200 border text-ink-mute cursor-pointer;
+    border-color: rgba(148, 180, 210, 0.2);
+  }
+
+  .btn-ghost:hover {
+    @apply text-ink;
+    border-color: rgba(148, 180, 210, 0.4);
+    background: rgba(15, 29, 44, 0.6);
+  }
+
+  .card-dock {
+    @apply rounded-xl p-6 transition-all duration-200;
+    background: #0f1d2c;
+    border: 1px solid rgba(148, 180, 210, 0.1);
+  }
+
+  .card-dock:hover {
+    border-color: rgba(224, 164, 88, 0.3);
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(224, 164, 88, 0.08);
+  }
+
+  .kicker {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint;
+  }
+
+  .display {
+    @apply font-display tracking-tight text-ink;
+  }
+
+  .hairline {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(148, 180, 210, 0.16),
+      transparent
+    );
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[11px]
+           tracking-wide text-ink-mute;
+    background: rgba(148, 180, 210, 0.08);
+    border: 1px solid rgba(148, 180, 210, 0.12);
+  }
+}
+
+/* Hero depth-contour field — one slow drift, nothing else moves. */
+.contour-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.contour-field::before {
+  content: '';
+  position: absolute;
+  inset: -10% -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Cg fill='none' stroke='%233BA7B8' stroke-opacity='0.07'%3E%3Cpath d='M-50 80 Q150 40 300 80 T650 80'/%3E%3Cpath d='M-50 130 Q150 90 300 130 T650 130'/%3E%3Cpath d='M-50 180 Q150 140 300 180 T650 180'/%3E%3Cpath d='M-50 230 Q150 190 300 230 T650 230'/%3E%3Cpath d='M-50 280 Q150 240 300 280 T650 280'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 600px 300px;
+  animation: contourDrift 60s linear infinite;
+}
+
+.lantern-glow {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(224, 164, 88, 0.14) 0%,
+    transparent 60%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contour-field::before,
+  .animate-pulse-soft,
+  .animate-contour-drift {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

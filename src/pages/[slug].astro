@@ -1,0 +1,33 @@
+---
+import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from 'emdash';
+import { PortableText } from 'emdash/ui';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect('/404');
+
+const { entry: page, cacheHint } = await getEmDashEntry('pages', slug);
+if (!page) return Astro.redirect('/404');
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const siteTitle = (await getSiteSettings()).title ?? 'Digital Harbor';
+const seo = getSeoMeta(page, {
+  siteTitle,
+  siteUrl: Astro.url.origin,
+  path: Astro.url.pathname.replace(/\/$/, ''),
+});
+---
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seo.canonical}
+  content={{ collection: 'pages', id: page.data.id, slug }}
+>
+  <article class="mx-auto max-w-2xl px-4 py-24">
+    <h1 class="display mb-8 text-4xl md:text-5xl" {...page.edit.title}>{page.data.title}</h1>
+    <div class="prose-emdash space-y-4 leading-relaxed text-ink-mute">
+      <PortableText value={page.data.content} />
+    </div>
+  </article>
+</BaseLayout>

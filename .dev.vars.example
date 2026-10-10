@@ -1,0 +1,17 @@
+# Copy to .dev.vars for `wrangler dev`. For the deployed worker use:
+#   npx wrangler secret put DEVIN_API_KEY
+#   npx wrangler secret put OPS_KEY
+#   npx wrangler secret put OPS_DATA
+
+# Personal/Service API key from https://app.devin.ai → Settings → API (apk_*).
+# Enables live session status on the sites board.
+DEVIN_API_KEY=
+
+# Any string. Visiting /?key=<OPS_KEY> or /sites?key=<OPS_KEY> renders
+# per-site ops details. Leave unset to disable.
+OPS_KEY=
+
+# JSON map of slug → ops details (accountName, accountId, worker, factoryDir,
+# repoPath, notes). Rendered only when the ops key matches. Keep this OUT of
+# git — the repo is mirrored publicly.
+OPS_DATA={}

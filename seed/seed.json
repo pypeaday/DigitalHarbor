@@ -1,0 +1,498 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "meta": {
+    "name": "Digital Harbor",
+    "description": "Digital Harbor \u2014 a web studio for local business",
+    "author": "Digital Harbor"
+  },
+  "settings": {
+    "title": "Digital Harbor",
+    "tagline": "Websites, built and kept running."
+  },
+  "collections": [
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "urlPattern": "/{slug}",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "type": "text"
+        },
+        {
+          "slug": "content",
+          "label": "Body",
+          "type": "portableText",
+          "searchable": true
+        }
+      ]
+    },
+    {
+      "slug": "services",
+      "label": "Services",
+      "labelSingular": "Service",
+      "supports": [
+        "drafts",
+        "revisions",
+        "search"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "kicker",
+          "label": "Kicker",
+          "type": "string"
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "features",
+          "label": "Features",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "text",
+                "label": "Text",
+                "type": "string",
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "slug": "cta_label",
+          "label": "CTA label",
+          "type": "string"
+        },
+        {
+          "slug": "cta_url",
+          "label": "CTA URL",
+          "type": "url"
+        },
+        {
+          "slug": "show_on_home",
+          "label": "Show on home",
+          "type": "boolean"
+        },
+        {
+          "slug": "sort_order",
+          "label": "Sort order",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "slug": "linkpages",
+      "label": "Link Pages",
+      "labelSingular": "Link Page",
+      "urlPattern": "/harbors/{slug}",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "tagline",
+          "label": "Tagline",
+          "type": "string"
+        },
+        {
+          "slug": "description",
+          "label": "Description",
+          "type": "text"
+        },
+        {
+          "slug": "accent",
+          "label": "Accent color (hex)",
+          "type": "string"
+        },
+        {
+          "slug": "avatar",
+          "label": "Avatar / logo",
+          "type": "image"
+        },
+        {
+          "slug": "links",
+          "label": "Links",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "label",
+                "label": "Label",
+                "type": "string",
+                "required": true
+              },
+              {
+                "slug": "url",
+                "label": "URL",
+                "type": "url",
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "slug": "footer_note",
+          "label": "Footer note",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "slug": "leads",
+      "label": "Leads",
+      "labelSingular": "Lead",
+      "supports": [
+        "search"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "name",
+          "label": "Name",
+          "type": "string",
+          "searchable": true
+        },
+        {
+          "slug": "email",
+          "label": "Email",
+          "type": "string",
+          "searchable": true
+        },
+        {
+          "slug": "business",
+          "label": "Business",
+          "type": "string",
+          "searchable": true
+        },
+        {
+          "slug": "project_type",
+          "label": "Project type",
+          "type": "select",
+          "validation": {
+            "options": [
+              "website",
+              "maintenance",
+              "linkpage",
+              "qr",
+              "other"
+            ]
+          }
+        },
+        {
+          "slug": "message",
+          "label": "Message",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "lead_status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "defaultValue": "new",
+          "validation": {
+            "options": [
+              "new",
+              "contacted",
+              "quoted",
+              "won",
+              "lost"
+            ]
+          }
+        },
+        {
+          "slug": "submitted_at",
+          "label": "Submitted at",
+          "type": "string"
+        },
+        {
+          "slug": "source",
+          "label": "Source",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "slug": "site_content",
+      "label": "Site Content",
+      "labelSingular": "Site Content",
+      "singleton": true,
+      "supports": [
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "hero_headline",
+          "label": "Hero headline",
+          "type": "text"
+        },
+        {
+          "slug": "hero_subtext",
+          "label": "Hero subtext",
+          "type": "text"
+        },
+        {
+          "slug": "email",
+          "label": "Contact email",
+          "type": "string"
+        },
+        {
+          "slug": "location",
+          "label": "Location line",
+          "type": "string"
+        },
+        {
+          "slug": "github",
+          "label": "GitHub URL",
+          "type": "url"
+        },
+        {
+          "slug": "announcement",
+          "label": "Announcement",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "menus": [
+    {
+      "name": "primary",
+      "label": "Primary Navigation",
+      "items": [
+        {
+          "type": "custom",
+          "label": "Work",
+          "url": "/sites"
+        },
+        {
+          "type": "custom",
+          "label": "Services",
+          "url": "/services"
+        },
+        {
+          "type": "custom",
+          "label": "QR",
+          "url": "/qr"
+        },
+        {
+          "type": "custom",
+          "label": "Contact",
+          "url": "/contact"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "site_content": [
+      {
+        "id": "site",
+        "slug": "site",
+        "status": "published",
+        "data": {
+          "title": "Digital Harbor",
+          "hero_headline": "Websites, built and kept running.",
+          "hero_subtext": "Digital Harbor builds websites for local businesses \u2014 and keeps them running. We handle all of the technical side so you never have to.",
+          "email": "nic@mydigitalharbor.com",
+          "location": "41.25\u00b0N \u2014 Fox Cities, Wisconsin",
+          "github": "https://github.com/pypeaday/DigitalHarbor"
+        }
+      }
+    ],
+    "services": [
+      {
+        "id": "svc-websites",
+        "slug": "websites",
+        "status": "published",
+        "data": {
+          "title": "Built for your business",
+          "kicker": "Websites",
+          "description": "A real website for your business \u2014 designed, built, and online fast. Your customers get a site that works; you get one you can edit yourself. A one-page link hub is included if you want one.",
+          "features": [
+            {
+              "text": "Loads fast on every phone and computer"
+            },
+            {
+              "text": "Edit it yourself \u2014 photos, prices, hours, specials"
+            },
+            {
+              "text": "Forms, bookings, galleries, audio \u2014 whatever you need"
+            },
+            {
+              "text": "Your .com, handled end to end"
+            }
+          ],
+          "cta_label": "Start a project",
+          "cta_url": "/contact",
+          "show_on_home": true,
+          "sort_order": 1
+        }
+      },
+      {
+        "id": "svc-maintenance",
+        "slug": "maintenance",
+        "status": "published",
+        "data": {
+          "title": "Already have a site? We take over",
+          "kicker": "Takeovers",
+          "description": "Your current site moved onto our watch \u2014 hosting, fixes, updates, and your changes handled. If it's beyond saving, we'll tell you honestly and quote a rebuild instead.",
+          "features": [
+            {
+              "text": "Fast, reliable hosting \u2014 included, no surprise bills"
+            },
+            {
+              "text": "Content updates on request \u2014 text or email us"
+            },
+            {
+              "text": "We watch it around the clock"
+            },
+            {
+              "text": "One flat monthly rate"
+            }
+          ],
+          "cta_label": "Ask about maintenance",
+          "cta_url": "/contact?type=maintenance",
+          "show_on_home": true,
+          "sort_order": 2
+        }
+      },
+      {
+        "id": "svc-linkpages",
+        "slug": "linkpages",
+        "status": "published",
+        "data": {
+          "title": "QR studio",
+          "kicker": "Coming soon",
+          "description": "QR codes as a real product \u2014 dynamic codes you can repoint anytime without reprinting, plus artisanal designs that actually look like your brand. They can point anywhere, not just at sites we run.",
+          "features": [
+            {
+              "text": "Repoint a live code anytime"
+            },
+            {
+              "text": "Branded or AI-art designs"
+            },
+            {
+              "text": "See when and where they're scanned"
+            },
+            {
+              "text": "Works with any destination"
+            }
+          ],
+          "cta_label": "See the QR gallery",
+          "cta_url": "/qr/professional",
+          "show_on_home": true,
+          "sort_order": 3
+        }
+      },
+      {
+        "id": "svc-notifiq",
+        "slug": "notifiq",
+        "status": "published",
+        "data": {
+          "title": "Notifiq",
+          "kicker": "Coming soon",
+          "description": "Our own product in the works \u2014 notifications and event tools that already power the booking pings and form alerts across these sites.",
+          "features": [
+            {
+              "text": "Real-time notifications"
+            },
+            {
+              "text": "Multi-channel delivery"
+            },
+            {
+              "text": "Built on the same setup as every site we run"
+            },
+            {
+              "text": "Early \u2014 follow along at notifiq.net"
+            }
+          ],
+          "cta_label": "Visit notifiq.net",
+          "cta_url": "https://notifiq.net",
+          "show_on_home": true,
+          "sort_order": 4
+        }
+      }
+    ],
+    "pages": [
+      {
+        "id": "about",
+        "slug": "about",
+        "status": "published",
+        "data": {
+          "title": "About",
+          "description": "The studio behind the harbor.",
+          "content": [
+            {
+              "_type": "block",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "text": "Digital Harbor is a one-man web studio run out of the Fox Cities, Wisconsin. I build websites for local businesses \u2014 churches, farms, gyms, trades \u2014 on the same Cloudflare stack I use for client work at scale."
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "text": "Every site is built on Astro and Cloudflare Workers, with an EmDash CMS admin so you can edit your own content. No page builders, no per-seat pricing, no agency runaround."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

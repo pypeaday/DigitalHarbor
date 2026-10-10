@@ -1,0 +1,39 @@
+---
+import { Check } from 'lucide-astro';
+
+interface Props {
+  icon: any;
+  kicker: string;
+  title: string;
+  description: string;
+  features: string[];
+  ctaText: string;
+  ctaHref?: string;
+}
+
+const { icon: Icon, kicker, title, description, features, ctaText, ctaHref } = Astro.props;
+---
+
+<article class="card-dock flex flex-col">
+  <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-brass/25 bg-brass/10">
+    <Icon class="h-5 w-5 text-brass" />
+  </div>
+  <p class="kicker mb-1">{kicker}</p>
+  <h3 class="display mb-2 text-xl">{title}</h3>
+  <p class="mb-5 flex-1 text-sm leading-relaxed text-ink-mute">{description}</p>
+
+  <ul class="mb-6 space-y-2">
+    {features.map((f) => (
+      <li class="flex items-start gap-2 text-sm text-ink-mute">
+        <Check class="mt-0.5 h-3.5 w-3.5 shrink-0 text-signal" />
+        {f}
+      </li>
+    ))}
+  </ul>
+
+  {ctaHref ? (
+    <a href={ctaHref} class="btn-ghost w-full text-sm">{ctaText}</a>
+  ) : (
+    <span class="btn-ghost w-full cursor-default text-sm opacity-60">{ctaText}</span>
+  )}
+</article>

@@ -1,0 +1,127 @@
+---
+import { ExternalLink, Wrench, GitBranch, Globe, Activity } from 'lucide-astro';
+import type { Site, OpsInfo } from '../data/sites';
+import type { SessionHit } from '../lib/devin';
+import { timeAgo } from '../lib/devin';
+import StatusDot from './StatusDot.astro';
+import OpsBlock from './OpsBlock.astro';
+
+interface Props {
+  site: Site;
+  sessions?: SessionHit[];
+  ops?: OpsInfo;
+  showOps?: boolean;
+}
+
+const { site, sessions = [], ops, showOps = false } = Astro.props;
+const latest = sessions[0];
+---
+
+<article class="card-dock group flex flex-col overflow-hidden" data-check={site.check ? site.url : undefined}>
+  {site.shot && (
+    <a
+      href={site.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="-mx-6 -mt-6 mb-5 block aspect-[40/21] overflow-hidden border-b border-white/5"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <img
+        src={site.shot}
+        alt={`${site.name} homepage`}
+        loading="lazy"
+        class="h-full w-full object-cover object-top opacity-80 saturate-[0.8] transition-all duration-300 group-hover:scale-[1.02] group-hover:opacity-100 group-hover:saturate-100"
+      />
+    </a>
+  )}
+  <div class="mb-3 flex items-start justify-between gap-3">
+    <div>
+      <h3 class="font-display text-lg tracking-tight text-ink transition-colors group-hover:text-brass">
+        {site.url ? (
+          <a href={site.url} target="_blank" rel="noopener noreferrer">{site.name}</a>
+        ) : (
+          site.name
+        )}
+      </h3>
+      {site.client && site.client !== site.name && (
+        <p class="mt-0.5 text-xs text-ink-faint">{site.client}</p>
+      )}
+    </div>
+    <div class="flex items-center gap-2 pt-1">
+      {site.check && (
+        <span
+          class="check-dot inline-block h-2 w-2 rounded-full bg-ink-faint"
+          title="reachability"
+        ></span>
+      )}
+      <StatusDot status={site.status} />
+    </div>
+  </div>
+
+  <p class="mb-4 flex-1 text-sm leading-relaxed text-ink-mute">{site.tagline}</p>
+
+  <div class="mb-4 flex flex-wrap gap-1.5">
+    {site.demo && <span class="chip !text-brass">demo</span>}
+    {showOps && site.stack.map((s) => <span class="chip">{s}</span>)}
+    {site.domain && (
+      <span
+        class:list={[
+          'chip',
+          site.domain.state === 'live' ? '!text-signal' : '!text-brass',
+        ]}
+      >
+        <Globe class="mr-1 inline h-3 w-3" />
+        {site.domain.host}
+      </span>
+    )}
+  </div>
+
+  {latest && (
+    <a
+      href={latest.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mb-4 flex items-center gap-2 rounded-md border border-white/5 bg-harbor px-3 py-2 font-mono text-[11px] text-ink-faint transition-colors hover:border-water/40 hover:text-ink-mute"
+    >
+      <Activity class="h-3 w-3 shrink-0 text-water" />
+      <span class="truncate">{latest.title ?? 'devin session'}</span>
+      <span class="ml-auto shrink-0">{timeAgo(latest.updated_at)}</span>
+    </a>
+  )}
+
+  <div class="mt-auto flex items-center gap-3 border-t border-white/5 pt-4 text-xs">
+    {site.url && (
+      <a
+        href={site.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-1 text-ink-mute transition-colors hover:text-brass"
+      >
+        <ExternalLink class="h-3.5 w-3.5" /> site
+      </a>
+    )}
+    {showOps && site.adminUrl && (
+      <a
+        href={site.adminUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-1 text-ink-mute transition-colors hover:text-brass"
+      >
+        <Wrench class="h-3.5 w-3.5" /> admin
+      </a>
+    )}
+    {showOps && site.repo && (
+      <a
+        href={site.repo}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-1 text-ink-mute transition-colors hover:text-brass"
+      >
+        <GitBranch class="h-3.5 w-3.5" /> repo
+      </a>
+    )}
+  </div>
+
+  {showOps && ops && <OpsBlock ops={ops} />}
+</article>

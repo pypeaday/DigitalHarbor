@@ -1,0 +1,117 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/fraunces/400.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '../styles/global.css';
+import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from 'emdash';
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from 'emdash/ui';
+import { createPublicPageContext } from 'emdash/page';
+import { env } from 'cloudflare:workers';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  pageTitle?: string | null;
+  description?: string;
+  image?: string;
+  canonical?: string | null;
+  content?: { collection: string; id: string; slug?: string | null };
+}
+
+const {
+  title,
+  pageTitle,
+  description = 'A web studio for local business — sites built, hosted, and kept running.',
+  image = '/images/og-image.png',
+  canonical,
+  content,
+} = Astro.props;
+
+const [settingsResult, menuResult] = await Promise.all([
+  getSiteSettingsWithCacheHint(),
+  getMenuWithCacheHint('primary'),
+]);
+if (Astro.cache?.enabled) {
+  Astro.cache.set(settingsResult.cacheHint);
+  Astro.cache.set(menuResult.cacheHint);
+}
+
+const siteTitle = settingsResult.data.title ?? 'Digital Harbor';
+const siteTagline = settingsResult.data.tagline ?? '';
+const titleIncludesSiteName =
+  title === siteTitle || title.endsWith(` — ${siteTitle}`);
+const fullTitle = titleIncludesSiteName ? title : `${title} — ${siteTitle}`;
+const pageDescription = description ?? siteTagline;
+const menu = menuResult.data;
+
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+
+const analyticsToken = env.CF_ANALYTICS_TOKEN || '';
+
+const pageCtx = createPublicPageContext({
+  Astro,
+  kind: content ? 'content' : 'custom',
+  pageType: 'website',
+  title: fullTitle,
+  pageTitle: pageTitle ?? title,
+  description: pageDescription,
+  canonical: canonicalURL,
+  image,
+  content,
+  siteName: siteTitle,
+});
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content={Astro.generator}>
+  <meta name="theme-color" content="#050C15">
+
+  <title>{fullTitle}</title>
+  <meta name="description" content={pageDescription}>
+  <link rel="canonical" href={canonicalURL}>
+
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:title" content={fullTitle}>
+  <meta property="og:description" content={pageDescription}>
+  <meta property="og:image" content={new URL(image, Astro.site)}>
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={fullTitle}>
+  <meta name="twitter:description" content={pageDescription}>
+  <meta name="twitter:image" content={new URL(image, Astro.site)}>
+
+  <EmDashHead page={pageCtx} />
+  {
+    analyticsToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+      />
+    )
+  }
+</head>
+<body class="flex min-h-screen flex-col">
+  <EmDashBodyStart page={pageCtx} />
+  <SiteNav menu={menu} />
+  <div class="flex-1">
+    <slot />
+  </div>
+  <SiteFooter />
+  <EmDashBodyEnd page={pageCtx} />
+</body>
+</html>

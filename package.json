@@ -1,0 +1,35 @@
+{
+  "name": "digital-harbor",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "dev:astro": "astro dev --port $(bash scripts/free-port.sh)",
+    "deploy": "npm run build && wrangler deploy",
+    "shots": "bash scripts/capture-shots.sh"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.3.3",
+    "@astrojs/react": "^7.0.0",
+    "@cloudflare/kumo": "^2.6.0",
+    "@emdash-cms/auth-atproto": "^0.2.46",
+    "@emdash-cms/cloudflare": "^1.1.0",
+    "@fontsource/fraunces": "^5.3.0",
+    "@fontsource/inter": "^5.1.1",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.5",
+    "emdash": "^1.1.0",
+    "kysely": "^0.29.6",
+    "lucide-astro": "^0.469.0",
+    "pg": "^8.23.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3",
+    "wrangler": "^4.147.0"
+  }
+}

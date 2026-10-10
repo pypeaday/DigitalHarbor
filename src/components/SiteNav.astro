@@ -1,0 +1,49 @@
+---
+import { Anchor } from 'lucide-astro';
+
+interface Props {
+  menu?: { items?: Array<{ label?: string; url?: string }> } | null;
+}
+
+const { menu } = Astro.props;
+const path = Astro.url.pathname;
+
+const fallback = [
+  { href: '/sites', label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/qr', label: 'QR' },
+];
+
+const links =
+  menu?.items
+    ?.filter((i) => i.url && i.label && i.label !== 'Contact')
+    .map((i) => ({ href: i.url!, label: i.label! })) ?? fallback;
+---
+
+<header class="sticky top-0 z-50 border-b border-white/5 bg-abyss/80 backdrop-blur-md">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+    <a href="/" class="flex items-center gap-2.5 text-ink transition-colors hover:text-brass">
+      <Anchor class="h-4 w-4 text-brass" />
+      <span class="font-display text-lg tracking-tight">Digital Harbor</span>
+    </a>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={[
+            'rounded-md px-3 py-1.5 text-sm transition-colors',
+            path === l.href
+              ? 'text-brass'
+              : 'text-ink-mute hover:bg-white/5 hover:text-ink',
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+      <a href="/contact" class="btn-brass ml-1 !px-4 !py-1.5 text-sm">
+        Contact
+      </a>
+    </div>
+  </nav>
+</header>
